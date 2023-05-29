@@ -1,5 +1,11 @@
 @tailwind base;
 
+:root {
+  --main-colour-rgb: 0, 0, 0;
+  --primary: rebeccapurple;
+  --secondary: cornflowerblue;
+}
+
 /* Firefox */
 * {
   scrollbar-width: thin;
@@ -24,10 +30,6 @@
 
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --main-colour-rgb: 0, 0, 0;
-}
 
 @media (prefers-color-scheme: dark) {
   :root {
