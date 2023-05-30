@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/Image'
+import Image from 'next/image'
 
 export default function Card(props) {
 
@@ -8,7 +8,7 @@ export default function Card(props) {
     
     <div class="bg-white shadow-md border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
         <Link href={props.link}>
-            <Image class="rounded-t-lg" src={props.image} fill={true} alt=""></img>
+            <Image class="rounded-t-lg" src={props.image} width={1000} height={1000}  alt=""></Image>
         </Link>
         <div class="p-5">
             <Link href={props.link}>
