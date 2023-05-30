@@ -1,8 +1,61 @@
 import { useState } from "react";
 import Link from "next/link";
 
-function Note({ note, editNote, deleteNote }) {
+function Note({ note, refreshData }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const editNote = () => {
+    refreshData();
+    }
+
+  const deleteNote = async (ID) => {
+
+    // Get data from the form.
+    const data = {
+        id: ID,
+    };
+
+    // Check that required fields are not empty.
+    if (!data.id) {
+
+        console.log("Missing values: " + data.id)
+        return;
+
+    }
+
+    //Delete the note from the database
+
+    // Send the data to the server in JSON format.
+    const JSONdata = JSON.stringify(data);
+
+    // API endpoint where we send form data.
+    const endpoint = '/api/deleteNote';
+
+    // Form the request for sending data to the server.
+    const options = {
+      // The method is POST because we are sending data.
+      method: 'POST',
+      // Tell the server we're sending JSON.
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Body of the request is the JSON data we created above.
+      body: JSONdata,
+    };
+
+    // Send the form data to our forms API on Vercel and get a response.
+    const response = await fetch(endpoint, options);
+
+    // Get the response data from server as JSON.
+    // If server returns the name submitted, that means the form works.
+    const result = await response.json();
+
+    // Set the notice message to display.
+    if (result.data) {
+        // Redirect to the campaign page with the campaign ID as a get parameter
+        refreshData();
+    }
+}
 
   return (
     <>
