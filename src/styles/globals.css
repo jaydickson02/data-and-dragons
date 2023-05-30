@@ -2,7 +2,7 @@
 
 :root {
   --main-colour-rgb: 0, 0, 0;
-  --primary: whitesmoke
+  --primary: black
 }
 
 /* Firefox */
@@ -20,7 +20,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background: var(--primary);
+  background-color: var(--primary);
   border-radius: 14px;
 }
 
