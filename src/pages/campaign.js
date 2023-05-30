@@ -5,10 +5,19 @@ import Table from "@/components/table";
 import Note from "@/components/note";
 import { useState } from 'react';
 import NoteRenderer from "@/components/noteRenderer";
+import { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
 export default function Home(props) {
+
+    //Validate Data
+    console.log("-------- Campaign Data --------")
+    console.log(props.campaign)
+    console.log("-------- Character Data --------")
+    console.log(props.characters)
+    console.log("-------- Note Data --------")
+    console.log(props.notes)
 
     const router = useRouter();
 
@@ -145,7 +154,6 @@ export default function Home(props) {
         {props.notes.map((note) => (
         <NoteRenderer key={note.ID} note={note} editNote={editNote} deleteNote={deleteNote} />
         ))}
-
 
         <Note ObjectID={props.campaign.ID} SessionNumber={sessionNumber} refreshData={refreshData}/>
   
