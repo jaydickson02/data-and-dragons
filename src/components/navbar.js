@@ -1,10 +1,13 @@
 //Next image
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 export default function Navbar(props) {
-    
+
+    const [showMenu, setShowMenu] = useState(false);
+
+
 return (
 
 //Add padding to the bottom
@@ -41,7 +44,7 @@ return (
         </div>
         <div class="-mr-2 flex md:hidden">
         
-          <button type="button" class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" aria-controls="mobile-menu" aria-expanded="false">
+          <button type="button" class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" aria-controls="mobile-menu" aria-expanded="false" onClick={() => setShowMenu(!showMenu)}>
             <span class="sr-only">Open main menu</span>
          
             <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -56,7 +59,7 @@ return (
       </div>
     </div>
 
-  
+    {showMenu && (
     <div class="md:hidden" id="mobile-menu">
       <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
 
@@ -75,6 +78,7 @@ return (
         </div>
       </div>
     </div>
+    )}
   </nav>
 
 </div>
