@@ -75,11 +75,7 @@ function tableRow({ row }){
 
                 <td class="px-6 py-4">
                     <Link href={{ pathname: '/editCharacter', query: {"ID": row.ID, "CampaignID": row.CampaignID} }}>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                        <circle cx="12" cy="12" r="1"></circle>
-                        <circle cx="19" cy="12" r="1"></circle>
-                        <circle cx="5" cy="12" r="1"></circle>
-                        </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18.31 2.828l2.862 2.862-15.032 15.032-3.583.722.723-3.585 15.03-15.031zm0-2.828l-16.872 16.872-1.438 7.128 7.127-1.437 16.873-16.874-5.69-5.689zm-.021 5.004l-12.728 12.728.707.708 12.728-12.728-.707-.708z"/></svg>
                     </Link>
                 </td>
                                                     
