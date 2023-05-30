@@ -11,7 +11,7 @@ export default function Card(props) {
         </Link>
         <div class="p-5">
             <Link href={props.link}>
-                <h5 class="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white">{props.title}</h5>
+                <h5 id="CardContent" class="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white">{props.title}</h5>
             </Link>
             <p class="font-normal text-gray-700 mb-3 dark:text-gray-400 h-64 overflow-auto">{props.description}</p>
             <Link href={props.link} class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
