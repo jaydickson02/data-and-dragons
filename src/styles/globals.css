@@ -5,20 +5,20 @@
 }
 
 /* Firefox */
-#cardContent {
+*{
   scrollbar-width: thin;
 }
 
 /* Chrome, Edge, and Safari */
-#cardContent::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 15px;
 }
 
-#cardContent::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   border-radius: 5px;
 }
 
-#cardContent::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   border-radius: 14px;
 }
 
