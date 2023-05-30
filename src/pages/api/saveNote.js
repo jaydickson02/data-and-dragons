@@ -13,7 +13,7 @@ export default function handler(req, res) {
         values: [body.content, body.objectID, body.session],
         }).then(results => {
             // Sends a HTTP success code
-            res.status(200).json({ data: results });
+            res.status(200).json({ data: `Affected Rows: ${results.affectedRows}` });
         });;
 
 

@@ -1,5 +1,4 @@
 
-
 export default function Alert(props) {
 
     if(props.type == "error"){
@@ -23,26 +22,32 @@ export default function Alert(props) {
                 />
             </svg>
             <p>
-                <span class="font-bold">Info: </span>
+                <span class="font-bold">{props.title}</span>
                 {props.message}
             </p>
             </div>
         </div>
         <div>
-            <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-            />
-            </svg>
+
+            <button type="button" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150" onClick={props.show}>
+            
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                />
+                </svg>
+
+            </button>
+
         </div>
         </div>
         )
@@ -70,12 +75,14 @@ export default function Alert(props) {
                 />
             </svg>
             <p>
-                <span class="font-bold">Info: </span>
+                <span class="font-bold">{props.title}</span>
                 {props.message}
             </p>
             </div>
         </div>
         <div>
+        <button type="button" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150" onClick={props.show}>
+            
             <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6"
@@ -90,6 +97,8 @@ export default function Alert(props) {
                 d="M6 18L18 6M6 6l12 12"
             />
             </svg>
+
+        </button>
         </div>
         </div>
 

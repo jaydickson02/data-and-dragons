@@ -6,19 +6,25 @@ import Note from "@/components/note";
 import { useState } from 'react';
 import NoteRenderer from "@/components/noteRenderer";
 import { useEffect } from 'react';
+import Alert from "@/components/alert";
 
 import { useRouter } from 'next/router';
 
 export default function Home(props) {
 
-    //Validate Data
-    console.log("-------- Campaign Data --------")
-    console.log(props.campaign)
-    console.log("-------- Character Data --------")
-    console.log(props.characters)
-    console.log("-------- Note Data --------")
-    console.log(props.notes)
+    const [alertTitle, setAlertTitle] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
 
+    let showMessage = (title, message) => {
+        setAlertTitle(title);
+        console.log(message)
+        setAlertMessage(message);
+        setAlertType("success");
+        setShowAlert(true);
+    }
+ 
     const router = useRouter();
 
     let sessionNumber = 0;
@@ -31,67 +37,13 @@ export default function Home(props) {
         router.replace(router.asPath);
       }
 
-      const editNote = () => {
-        refreshData();
-        }
-
-      const deleteNote = async (ID) => {
-    
-        // Get data from the form.
-        const data = {
-            id: ID,
-        };
-    
-        // Check that required fields are not empty.
-        if (!data.id) {
-    
-            console.log("Missing values: " + data.id)
-            return;
-    
-        }
-    
-        //Delete the character from the database
-    
-        // Send the data to the server in JSON format.
-        const JSONdata = JSON.stringify(data);
-    
-        // API endpoint where we send form data.
-        const endpoint = '/api/deleteNote';
-    
-        // Form the request for sending data to the server.
-        const options = {
-          // The method is POST because we are sending data.
-          method: 'POST',
-          // Tell the server we're sending JSON.
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          // Body of the request is the JSON data we created above.
-          body: JSONdata,
-        };
-    
-        // Send the form data to our forms API on Vercel and get a response.
-        const response = await fetch(endpoint, options);
-    
-        // Get the response data from server as JSON.
-        // If server returns the name submitted, that means the form works.
-        const result = await response.json();
-    
-        // Set the notice message to display.
-        if (result.data) {
-            // Redirect to the campaign page with the campaign ID as a get parameter
-            refreshData();
-        }
-    }
-
-    
-
     return (
   
     <Layout>
     <Navigation />
 
             <div class="px-4 py-5 sm:px-6">
+                {showAlert && (<Alert title={alertTitle} message={alertMessage} type={alertType} show={() => {setShowAlert(!showAlert)}} />)}
 
                 <div class="grid grid-cols-1 gap-4">
                     <div class="bg-white overflow-hidden shadow rounded-lg">
@@ -152,10 +104,10 @@ export default function Home(props) {
         </div>
 
         {props.notes.map((note) => (
-        <NoteRenderer key={note.ID} note={note} editNote={editNote} deleteNote={deleteNote} />
+        <NoteRenderer key={note.ID} note={note} refreshData={refreshData} />
         ))}
 
-        <Note ObjectID={props.campaign.ID} SessionNumber={sessionNumber} refreshData={refreshData}/>
+        <Note ObjectID={props.campaign.ID} SessionNumber={sessionNumber} refreshData={refreshData} showAlert={showMessage}/>
   
       </Layout>
   

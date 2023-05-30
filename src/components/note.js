@@ -55,8 +55,8 @@ export default function Note(props) {
       const result = await response.json();
 
       if (result.data) {
-        alert('success');
-        alert(result.data);
+
+        props.showAlert("Note Added. ", result.data);
 
         // Clear the form.
         clearField();
