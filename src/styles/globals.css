@@ -1,8 +1,14 @@
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --main-colour-rgb: 0, 0, 0;
-  --primary: whitesmoke
+  --primary: rgb(33, 41, 54)
+
+  /* Hex Code */
+  --main-colour: hex(#000000);
+
 }
 
 /* Firefox */
@@ -11,9 +17,11 @@
 }
 
 /* Chrome, Edge, and Safari */
+/*
 *::-webkit-scrollbar {
   width: 15px;
 }
+*/
 
 *::-webkit-scrollbar-track {
   border-radius: 5px;
@@ -23,9 +31,6 @@
   background-color: var(--primary);
   border-radius: 14px;
 }
-
-@tailwind components;
-@tailwind utilities;
 
 @media (prefers-color-scheme: dark) {
   :root {
