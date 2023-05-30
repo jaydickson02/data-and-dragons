@@ -14,31 +14,59 @@ export default function Note(props) {
     setValue('');
   }
 
-  function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Clear the form.
 
-    clearField();
-
-    //Call the database
-
-    props.refreshData();
-
+    // Don't submit if the field is empty.
     if(value == '') {
-        return;
-    }
+      return;
+  }
 
-    // Send the data to a server-side endpoint
-    fetch('/api/saveNote', {
+    const data = {
+
+      content: value, 
+      objectID: props.ObjectID, 
+      session: props.SessionNumber
+    };
+
+    // Send the data to the server in JSON format.
+    const JSONdata = JSON.stringify(data);
+
+      // API endpoint where we send form data.
+    const endpoint = '/api/saveNote';
+
+    // Form the request for sending data to the server.
+    const options = {
+      // The method is POST because we are sending data.
       method: 'POST',
-      body: JSON.stringify({ content: value, objectID: props.ObjectID, session: props.SessionNumber}),
+      // Tell the server we're sending JSON.
       headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error(error));
+        'Content-Type': 'application/json',
+      },
+      // Body of the request is the JSON data we created above.
+      body: JSONdata,
+    };
+
+      // Send the form data to our forms API on Vercel and get a response.
+      const response = await fetch(endpoint, options);
+
+      // Get the response data from server as JSON.
+      // If server returns the name submitted, that means the form works.
+      const result = await response.json();
+
+      if (result.data) {
+        alert('success');
+        alert(result.data);
+
+        // Clear the form.
+        clearField();
+
+        //Call the database
+        props.refreshData();
+    }
+      
+      
+      
   }
 
   return (
