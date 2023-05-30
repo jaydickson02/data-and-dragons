@@ -65,8 +65,6 @@ export default function Note(props) {
         props.refreshData();
     }
       
-      
-      
   }
 
   return (
@@ -82,9 +80,8 @@ export default function Note(props) {
            ['bold', 'italic', 'underline', 'strike'],
            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-           [{ 'align': [] }],
-           ['link', 'image'],
-           ['clean']
+           ['link'],
+           
          ]
        }}
       />

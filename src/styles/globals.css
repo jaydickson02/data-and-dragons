@@ -32,6 +32,116 @@
   border-radius: 14px;
 }
 
+
+/* For Notes */
+
+#noteContent ol li{
+  margin-left: 1em;
+  list-style-type: decimal;
+}
+
+#noteContent li {
+  margin-left: 1em;
+  list-style-type: square;
+}
+
+#noteContent .ql-indent-1 {
+  margin-left: 2em;
+  list-style-type: disc;
+}
+
+#noteContent .ql-indent-2 {
+  margin-left: 3em;
+  list-style-type: circle;
+}
+
+#noteContent .ql-indent-3 {
+  margin-left: 4em;
+  list-style-type: square;
+}
+
+#noteContent .ql-indent-4 {
+  margin-left: 5em;
+  list-style-type: disc;
+}
+
+#noteContent .ql-indent-5 {
+  margin-left: 6em;
+  list-style-type: circle;
+}
+
+#noteContent .ql-indent-6 {
+  margin-left: 7em;
+  list-style-type: square;
+}
+
+#noteContent .ql-indent-7 {
+  margin-left: 8em;
+  list-style-type: disc;
+}
+
+#noteContent h1 {
+  font-size: 2.5em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+}
+
+#noteContent h2 {
+  font-size: 2em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+#noteContent h3 {
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+#noteContent h4 {
+  font-size: 1.25em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+#noteContent h5 {
+  font-size: 1em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+#noteContent h6 {
+  font-size: 0.75em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+#noteContent p {
+  font-size: 1em;
+  font-weight: 400;
+  margin-bottom: 0.5em;
+}
+
+#noteContent a {
+  
+  color: plum;
+  font-size: 1em;
+  font-weight: 400;
+  margin-bottom: 0.5em;
+}
+
+#noteContent a:hover {
+  
+  color: wheat;
+  text-decoration: underline;
+}
+
+
+
+
+
+
 @media (prefers-color-scheme: dark) {
   :root {
     --main-colour-rgb: 255, 255, 255;
