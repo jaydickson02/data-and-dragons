@@ -45,6 +45,15 @@ export default function Home(props) {
             <div class="px-4 py-5 sm:px-6">
                 {showAlert && (<Alert title={alertTitle} message={alertMessage} type={alertType} show={() => {setShowAlert(!showAlert)}} />)}
 
+                <div class="px-4 py-5 sm:px-6">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    Campaign
+                    </h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                    Campaign details and background.
+                    </p>
+                </div>
+
                 <div class="grid grid-cols-1 gap-4">
                     <div class="bg-white overflow-hidden shadow rounded-lg">
                         <div class="px-4 py-5 sm:p-6">
@@ -54,14 +63,6 @@ export default function Home(props) {
                                 </dt>
                                 <dd class="mt-1 text-sm leading-5 text-gray-900">
                                     {props.campaign.Name}
-                                </dd>
-                            </dl>
-                            <dl class="mt-4">
-                                <dt class="text-sm leading-5 font-medium text-gray-500 truncate">
-                                    Description
-                                </dt>
-                                <dd class="mt-1 text-sm leading-5 text-gray-900">
-                                    {props.campaign.Background}
                                 </dd>
                             </dl>
 
@@ -74,6 +75,14 @@ export default function Home(props) {
                                 </dd>
                             </dl>
 
+                            <dl class="mt-4">
+                                <dt class="text-sm leading-5 font-medium text-gray-500 truncate">
+                                    Description
+                                </dt>
+                                <dd class="mt-1 text-sm leading-5 text-gray-900">
+                                    {props.campaign.Background}
+                                </dd>
+                            </dl>
                         </div>
                     </div>
                 </div>
@@ -138,7 +147,7 @@ export default function Home(props) {
             "PlayerName": "N/A",
             "Class": "N/A",
             "ID": 0,
-            "CampaignID": 0,
+            "CampaignID": query.ID,
             "Background": "N/A",
             "Alignment": "N/A",
             "Affiliation": "N/A",
@@ -151,7 +160,7 @@ export default function Home(props) {
     }
 
     let notes = await executeQuery({
-        query: 'SELECT * FROM Notes WHERE ObjectID = ?',
+        query: 'SELECT * FROM Notes WHERE ObjectID = ? ORDER BY Session ASC',
         values: [query.ID],
         });
     
