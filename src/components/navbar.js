@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-export default function Navbar() {
+export default function Navbar(props) {
     
 return (
 
@@ -22,8 +22,8 @@ return (
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
               
-              <Link href="/" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Campaigns</Link>
-              <Link href="/AddCampaign" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Add Campaign</Link>
+              <Link href="/" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current={props.activePage}>Campaigns</Link>
+              <Link href="/AddCampaign" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current={props.activePage}>Add Campaign</Link>
             </div>
           </div>
         </div>
@@ -60,11 +60,8 @@ return (
     <div class="md:hidden" id="mobile-menu">
       <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
 
-        <a href="#" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Dashboard</a>
-        <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Team</a>
-        <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Projects</a>
-        <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Calendar</a>
-        <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Reports</a>
+        <a href="#" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current={props.activePage}>Campaign</a>
+        <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current={props.activePage}>Add Campaign</a>
       </div>
       <div class="border-t border-gray-700 pb-3 pt-4">
         <div class="flex items-center px-5">
