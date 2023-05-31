@@ -17,9 +17,11 @@ export default function Campaigns( {campaigns} ) {
         
             <div class="px-4 py-5 sm:px-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {campaigns.map((campaign) => (
+                {
+                
+                campaigns.map((campaign) => (
                     
-                    <Card title={campaign.Name} link={{ pathname: '/campaign', query: {"ID": campaign.ID} }} image="/campaignImage.avif" description={campaign.Background}/>
+                    <Card title={campaign.Name} link={{ pathname: '/campaign', query: {"ID": campaign.ID} }} image={campaign.CoverImage} description={campaign.Background}/>
 
                 ))}            
             </div>

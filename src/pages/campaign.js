@@ -134,7 +134,7 @@ export default function Home(props) {
     });
 
     let characters = await executeQuery({
-        query: 'SELECT * FROM Characters WHERE CampaignID = ? ORDER BY Name ASC',
+        query: 'SELECT * FROM Characters WHERE CampaignID = ? ORDER BY Player DESC, Name',
         values: [query.ID],
       });
     

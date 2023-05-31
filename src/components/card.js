@@ -4,11 +4,11 @@ import Image from 'next/image'
 export default function Card(props) {
 
     return(
-<div class="max-w-2xl w-full mx-auto">
+<div class="max-w-2xl h-full w-full mx-auto">
     
     <div class="bg-white shadow-md border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
         <Link href={props.link}>
-            <Image class="rounded-t-lg" src={props.image} width={1000} height={1000}  alt=""></Image>
+            <img class="rounded-t-lg" src={props.image} width={1000} height={1000}  alt=""></img>
         </Link>
         <div class="p-5">
             <Link href={props.link}>
