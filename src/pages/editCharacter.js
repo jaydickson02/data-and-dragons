@@ -4,15 +4,18 @@ import Notice from '../components/alert';
 import Navigation from '@/components/navigation';
 import { useEffect } from 'react';
 
+import 'font-awesome/css/font-awesome.min.css';
+
 import executeQuery from '../../lib/db';
 
 import { useRouter } from 'next/router';
-
+import { FaSpinner } from 'react-icons/fa';
 
 export default function AddCharacter({character}) {
 
   const [noticeMessage, setNoticeMessage] = useState('');
   const [noticeType, setNoticeType] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -60,6 +63,9 @@ export default function AddCharacter({character}) {
       body: JSONdata,
     };
 
+    //Set the loading state to true
+    setIsLoading(true);
+
     // Send the form data to our forms API on Vercel and get a response.
     const response = await fetch(endpoint, options);
 
@@ -67,11 +73,16 @@ export default function AddCharacter({character}) {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
+    //Set the loading state to false
+    setIsLoading(false);
+
     // Set the notice message to display.
     if (result.data) {
         // Redirect to the campaign page with the campaign ID as a get parameter
         router.push(`/campaign?ID=${CampaignID}`);
     }
+
+    
 }
 
 
@@ -158,6 +169,9 @@ export default function AddCharacter({character}) {
       body: JSONdata,
     };
 
+    //Set the loading state to true
+    setIsLoading(true);
+
     // Send the form data to our forms API on Vercel and get a response.
     const response = await fetch(endpoint, options);
 
@@ -170,6 +184,9 @@ export default function AddCharacter({character}) {
         // Redirect to the campaign page with the campaign ID as a get parameter
         router.push(`/campaign?ID=${CampaignID}`);
     }
+
+    //Set the loading state to false
+    setIsLoading(false);
   };
   
   useEffect(() => {
@@ -362,6 +379,9 @@ export default function AddCharacter({character}) {
             </div>
 
             <div class="mt-6 flex items-center justify-end gap-x-6">
+                {isLoading && (
+                    <FaSpinner class ="fa-spin" />
+                )}
                 <button type="submit" class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" onClick={deleteCharacter}>Delete</button>
                 <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Update</button>
             </div>
