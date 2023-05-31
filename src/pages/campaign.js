@@ -45,6 +45,8 @@ export default function Home(props) {
             <div class="px-4 py-5 sm:px-6">
                 {showAlert && (<Alert title={alertTitle} message={alertMessage} type={alertType} show={() => {setShowAlert(!showAlert)}} />)}
 
+                <img class="h-24 w-24 rounded-full mx-auto" src="/img/campaign.png" alt="" />
+
                 <div class="px-4 py-5 sm:px-6">
                     <h3 class="text-lg leading-6 font-medium text-gray-900">
                     Campaign
