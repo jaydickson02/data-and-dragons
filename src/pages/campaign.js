@@ -39,39 +39,6 @@ export default function Home(props) {
 
     return (
   
-    <Layout>
-    <Navigation />
-
-            <div class="px-4 py-5 sm:px-6">
-                {showAlert && (<Alert title={alertTitle} message={alertMessage} type={alertType} show={() => {setShowAlert(!showAlert)}} />)}
-
-                <img class="h-24 w-24 rounded-full mx-auto" src="/img/campaign.png" alt="" />
-
-                <div class="px-4 py-5 sm:px-6">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">
-                    Campaign
-                    </h3>
-                    <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                    Campaign details and background.
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 gap-4">
-                    <div class="bg-white overflow-hidden shadow rounded-lg">
-                        <div class="px-4 py-5 sm:p-6">
-                            <dl>
-                                <dt class="text-sm leading-5 font-medium text-gray-500 truncate">
-                                    Name
-                                </dt>
-                                <dd class="mt-1 text-sm leading-5 text-gray-900">
-                                    {props.campaign.Name}
-                                </dd>
-                            </dl>
-
-                            <dl class="mt-4">
-                                <dt class="text-sm leading-5 font-medium text-gray-500 truncate">
-                                    DM
-                                </dt>
                                 <dd class="mt-1 text-sm leading-5 text-gray-900">
                                     {props.campaign.DM}
                                 </dd>
