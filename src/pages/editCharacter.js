@@ -73,16 +73,13 @@ export default function AddCharacter({character}) {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
-    //Set the loading state to false
-    setIsLoading(false);
+    
 
     // Set the notice message to display.
     if (result.data) {
         // Redirect to the campaign page with the campaign ID as a get parameter
         router.push(`/campaign?ID=${CampaignID}`);
     }
-
-    
 }
 
 
@@ -181,12 +178,11 @@ export default function AddCharacter({character}) {
 
     // Set the notice message to display.
     if (result.data) {
+        //
+        alert(result.data)
         // Redirect to the campaign page with the campaign ID as a get parameter
         router.push(`/campaign?ID=${CampaignID}`);
     }
-
-    //Set the loading state to false
-    setIsLoading(false);
   };
   
   useEffect(() => {
