@@ -1,6 +1,8 @@
-import executeQuery from "../../lib/db";
+import executeQuery from "../lib/db";
 import Layout from "@/components/layout";
-import Card from "@/components/card";
+import Card from "@/components/elements/card";
+import { getCampaigns } from "@/lib/DBUtils/GetCalls";
+import Error400 from "@/components/Errors/400";
 
 export default function Campaigns( {campaigns} ) {
 
@@ -37,7 +39,7 @@ export async function getServerSideProps() {
             query: 'SELECT * FROM Campaign',
             values: [],
         });
-    
+
         const campaigns = result
     
         return {

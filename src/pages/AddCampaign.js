@@ -1,14 +1,34 @@
 
 //Create a form to add a new campaign then allow it to run a query to add it to the database
 import Layout from "@/components/layout"
-import Notice from "@/components/alert"
+import Notice from "@/components/elements/alert"
 import { useState } from 'react';
-import Navigation from "@/components/navigation";
+import Navigation from "@/components/Navigation/navigation";
+import Alert from "@/components/elements/alert";
+
+import { PostToDB } from "@/lib/DBUtils/PostCalls";
+
+import 'font-awesome/css/font-awesome.min.css';
+import { useRouter } from 'next/router';
+import { FaSpinner } from 'react-icons/fa';
 
 export default function AddCampaign() {
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  //Open and manage the alert
   const [noticeMessage, setNoticeMessage] = useState('');
-  const [noticeType, setNoticeType] = useState('');
+  const [noticeColour, setNoticeColour] = useState('');
+  const [showNotice, setShowNotice] = useState(false);
+  const [noticeTitle, setNoticeTitle] = useState('');
+
+
+  let openAlert = (colour, message, title) => {
+    setShowNotice(!showNotice);
+    setNoticeColour(colour);
+    setNoticeTitle(title);
+    setNoticeMessage(message);
+    };
 
   function clearForm() {
     document.getElementById("newCampaignForm").reset();
@@ -28,45 +48,32 @@ export default function AddCampaign() {
     // Check that all fields are not empty.
     if (!data.campaignName || !data.about || !data.dmName) {
 
-    // Set the notice message to display.
-    setNoticeType('error');
-    setNoticeMessage('Some values are missing.');
-    return;
+      // Set the notice message to display.
+      openAlert('red', 'Missing required fields.', 'Error');
+      return;
 
     }
 
-    // Send the data to the server in JSON format.
-    const JSONdata = JSON.stringify(data);
+    // Set the loading state.
+    setIsLoading(true);
 
-    // API endpoint where we send form data.
-    const endpoint = '/api/addCampaign';
+    // Send a POST request to the API endpoint.
+    PostToDB('/api/add/campaign', data)
+    .then((result) => {
+      
+      // Set the notice message to display.
+      openAlert('gray', 'New Campaign Added.', 'Success');
+      setIsLoading(false);
 
-    // Form the request for sending data to the server.
-    const options = {
-      // The method is POST because we are sending data.
-      method: 'POST',
-      // Tell the server we're sending JSON.
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // Body of the request is the JSON data we created above.
-      body: JSONdata,
-    };
+      // Clear the form.
+      clearForm();
+    })
+    .catch((error) => {
+      // Set the notice message to display.
+      openAlert('red', 'Error adding campaign.', 'Error');
+      setIsLoading(false);
+    });
 
-    // Send the form data to our forms API on Vercel and get a response.
-    const response = await fetch(endpoint, options);
-
-    // Get the response data from server as JSON.
-    const result = await response.json();
-
-    // Set the notice message to display.
-    if (result.data) {
-        setNoticeType('success');
-        setNoticeMessage(result.data);
-
-        // Clear the form.
-        clearForm();
-    }
   };
 
 
@@ -74,7 +81,7 @@ export default function AddCampaign() {
 <Layout>
 <Navigation />
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
-    {noticeMessage && <Notice type={noticeType} message={noticeMessage} />}
+{showNotice && (<Alert colour={noticeColour} title={noticeTitle} message={noticeMessage} show={openAlert}/>)}
 </div>
     
 <form class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10" id="newCampaignForm" onSubmit={handleSubmit}>
@@ -137,6 +144,9 @@ export default function AddCampaign() {
 
 
   <div class="mt-6 flex items-center justify-end gap-x-6">
+  {isLoading && (
+                    <FaSpinner class ="fa-spin" />
+                )}
     <button type="button" class="text-sm font-semibold leading-6 text-gray-900" onClick={clearForm}>Clear</button>
     <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create</button>
   </div>

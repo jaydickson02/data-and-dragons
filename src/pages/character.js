@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import executeQuery from '../../lib/db';
-import Navbar from '@/components/navbar';
+import executeQuery from '../lib/db';
+import Navbar from '@/components/Navigation/navbar';
 
 export default function Character( { character } ) {
 

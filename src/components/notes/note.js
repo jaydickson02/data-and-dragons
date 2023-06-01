@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
+import { PostToDB } from '@/lib/DBUtils/PostCalls';
+
+import 'font-awesome/css/font-awesome.min.css';
+import { FaSpinner } from 'react-icons/fa';
 
 export default function Note(props) {
   const [value, setValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleChange(newValue) {
     setValue(newValue);
@@ -20,7 +25,7 @@ export default function Note(props) {
     // Don't submit if the field is empty.
     if(value == '') {
       return;
-  }
+    }
 
     const data = {
 
@@ -29,42 +34,20 @@ export default function Note(props) {
       session: props.SessionNumber
     };
 
-    // Send the data to the server in JSON format.
-    const JSONdata = JSON.stringify(data);
+    setIsLoading(true);
 
-      // API endpoint where we send form data.
-    const endpoint = '/api/saveNote';
+    PostToDB("/api/add/note", data)
+    .then((result) => {
+      props.showAlert("gray", "Note added successfully", "Success")
+      setIsLoading(false);
+      clearField();
 
-    // Form the request for sending data to the server.
-    const options = {
-      // The method is POST because we are sending data.
-      method: 'POST',
-      // Tell the server we're sending JSON.
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // Body of the request is the JSON data we created above.
-      body: JSONdata,
-    };
-
-      // Send the form data to our forms API on Vercel and get a response.
-      const response = await fetch(endpoint, options);
-
-      // Get the response data from server as JSON.
-      // If server returns the name submitted, that means the form works.
-      const result = await response.json();
-
-      if (result.data) {
-
-        props.showAlert("Note Added. ", result.data);
-
-        // Clear the form.
-        clearField();
-
-        //Call the database
-        props.refreshData();
-    }
-      
+    })
+    .catch((error) => {
+      console.error(error);
+      setIsLoading(false);
+      props.showAlert("red", "Failed to add note", "Error")
+    });
   }
 
   return (
@@ -87,10 +70,13 @@ export default function Note(props) {
       />
       
        <div class="px-4 py-10 sm:px-6">
-            <div class="flex">   
+            <div class="flex items-center">   
                 <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
                 Add
                 </button>
+                {isLoading && (
+                    <FaSpinner class ="fa-spin ml-2" />
+                )}
             </div>
         </div>
 

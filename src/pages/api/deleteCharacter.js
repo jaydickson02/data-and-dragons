@@ -1,8 +1,9 @@
+//TODO: Migrate this to /api/remove/character/[id]
 
 // Get the notes from the database
 
 // Import db
-import executeQuery from '../../../lib/db';
+import executeQuery from '../../lib/db';
 
 export default function deleteCharacter(req, res) {
 
@@ -23,9 +24,10 @@ export default function deleteCharacter(req, res) {
         query: 'DELETE FROM Characters WHERE ID = ?',
         values: [body.id],
     }).then(results => {
-        // Sends a HTTP success code
-        res.status(200).json({ data: results });
-
-        
+      // Sends a HTTP success code
+      res.status(200).json({ status: 200, affectedRows: results.affectedRows });
+    }).catch(() => {
+      // Sends a HTTP bad request code
+      res.status(400).json({ status: 400, affectedRows: results.affectedRows });
     });
 }

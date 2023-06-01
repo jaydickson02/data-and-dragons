@@ -1,27 +1,39 @@
 import { useState } from 'react';
 import Layout from '../components/layout';
-import Notice from '../components/alert';
-import Navigation from '@/components/navigation';
+import Alert from '../components/elements/alert';
+import Navigation from '@/components/Navigation/navigation';
 import { useEffect } from 'react';
 
 import 'font-awesome/css/font-awesome.min.css';
-
-import executeQuery from '../../lib/db';
+import { FaSpinner } from 'react-icons/fa';
 
 import { useRouter } from 'next/router';
-import { FaSpinner } from 'react-icons/fa';
+import executeQuery from '../lib/db';
 
 export default function AddCharacter({character}) {
 
-  const [noticeMessage, setNoticeMessage] = useState('');
-  const [noticeType, setNoticeType] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+    //Open and manage the alert
+  const [noticeMessage, setNoticeMessage] = useState('');
+  const [noticeColour, setNoticeColour] = useState('');
+  const [showNotice, setShowNotice] = useState(false);
+  const [noticeTitle, setNoticeTitle] = useState('');
+
+
+  let openAlert = (colour, message, title) => {
+    setShowNotice(!showNotice);
+    setNoticeColour(colour);
+    setNoticeTitle(title);
+    setNoticeMessage(message);
+    };
 
   const router = useRouter();
 
   // Get the query
   const {CampaignID} = router.query;
 
+  
   const deleteCharacter = async (event) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
@@ -34,11 +46,8 @@ export default function AddCharacter({character}) {
     // Check that required fields are not empty.
     if (!data.id) {
 
-        console.log("Missing values: " + data.id)
-
     // Set the notice message to display.
-    setNoticeType('error');
-    setNoticeMessage('Some values are missing.');
+    openAlert('red', 'Missing required fields.', 'Error');
     return;
 
     }
@@ -73,11 +82,16 @@ export default function AddCharacter({character}) {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
+    if(parseInt(result.affectedRows) == 0) {
+        // Set the notice message to display.
+        openAlert('red', 'There was an error deleting the character.', 'Error');
+        setIsLoading(false);
+        return;
+    }
     
-
-    // Set the notice message to display.
-    if (result.data) {
+    if (parseInt(result.affectedRows) >= 1) {
         // Redirect to the campaign page with the campaign ID as a get parameter
+        openAlert('gray', 'Character Deleted.', 'Success');
         router.push(`/campaign?ID=${CampaignID}`);
     }
 }
@@ -109,12 +123,9 @@ export default function AddCharacter({character}) {
     // Check that required fields are not empty.
     if (!data.name || !data.campaignID || !data.id) {
 
-        console.log("Missing values: " + data.name + " " + data.campaignID + " " + data.id)
-
-    // Set the notice message to display.
-    setNoticeType('error');
-    setNoticeMessage('Some values are missing.');
-    return;
+        // Set the notice message to display.
+        openAlert('red', 'Missing required fields.', 'Error');
+        return;
 
     }
 
@@ -176,10 +187,16 @@ export default function AddCharacter({character}) {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
+    if(parseInt(result.affectedRows) == 0) {
+
+        openAlert('red', 'There was an error updating the character.', 'Error');
+        setIsLoading(false);
+    }
+
     // Set the notice message to display.
-    if (result.data) {
-        //
-        alert(result.data)
+    if (parseInt(result.affectedRows) >= 1) {
+        
+        openAlert('gray', 'Character Updated.', 'Success');
         // Redirect to the campaign page with the campaign ID as a get parameter
         router.push(`/campaign?ID=${CampaignID}`);
     }
@@ -212,13 +229,11 @@ export default function AddCharacter({character}) {
 
   }, []);   // <-- empty dependency array
 
-  
-
   return (
     <Layout>
     <Navigation />
     <div class="px-4 py-5 sm:px-6">
-      {noticeMessage && <Notice type={noticeType} message={noticeMessage} />}
+      {showNotice && (<Alert colour={noticeColour} title={noticeTitle} message={noticeMessage} show={openAlert}/>)}
     </div>
       <form class="px-4 py-5 sm:px-6" id="updateCharacterForm" onSubmit={handleSubmit}>
       <div class="space-y-12">

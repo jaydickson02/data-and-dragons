@@ -1,5 +1,7 @@
+//TODO: Migrate this to /api/edit/character/
+
 //Import db
-import executeQuery from '../../../lib/db';
+import executeQuery from '../../lib/db';
 
 export default function handler(req, res) {
   // Get data submitted in request's body.
@@ -35,14 +37,10 @@ export default function handler(req, res) {
     query: 'UPDATE Characters SET CampaignID = ?, Name = ?, Image = ?, Class = ?, Background = ?, Player = ?, PlayerName = ?, Level = ?, Affiliation = ?, Alignment = ?, Status = ?, Race = ?, Location = ? WHERE ID = ?',
     values: [body.campaignID, body.name, body.image, body.class, body.background, player, body.playerName, body.level, body.affiliation, body.alignment, body.status, body.race, body.location, body.id],
   }).then(results => {
-    // Sends a HTTP success code
-    res.status(200).json({ data: `Affected Rows: ${results.affectedRows}` });
+    // Sends a HTTP success code.
+    res.status(200).json({ status: 200, affectedRows: results.affectedRows });
   }).catch(() => {
-    // Sends a HTTP bad request code
-    res.status(400).json({ data: 'Error updating character.' });
-
-
-  // // Sends a HTTP success code
-  // res.status(200).json({ data: `Character added. Name: ${body.name}, Class: ${body.class}, Type: ${body.characterType}` 
-});
+    // Sends a HTTP bad request code.
+    res.status(400).json({ status: 400, affectedRows: results.affectedRows });
+  });
 }

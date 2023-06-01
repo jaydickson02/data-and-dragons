@@ -1,8 +1,8 @@
 
 //Layout component
 import React from "react"
-import Navbar from "./navbar"
-import Footer from "./footer"
+import Navbar from "./Navigation/navbar"
+import Footer from "./Navigation/footer"
 
 export default function Layout({ children }) {
     return (

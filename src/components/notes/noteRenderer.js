@@ -6,17 +6,43 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import Alert from "@/components/elements/alert";
 
-function Note({ note, refreshData }) {
+import 'font-awesome/css/font-awesome.min.css';
+import { FaSpinner } from 'react-icons/fa';
+
+function Note({ note }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(note.Content);
   const [sessionNumber, setSessionNumber] = useState(note.Session);
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  //Open and manage the alert
+  const [noticeMessage, setNoticeMessage] = useState('');
+  const [noticeColour, setNoticeColour] = useState('');
+  const [showNotice, setShowNotice] = useState(false);
+  const [noticeTitle, setNoticeTitle] = useState('');
+
+
+  let openAlert = (colour, message, title) => {
+    setShowNotice(!showNotice);
+    setNoticeColour(colour);
+    setNoticeTitle(title);
+    setNoticeMessage(message);
+    };
+
+  const editNote = () => {
+    setIsEditing(!isEditing);
+    setIsDrawerOpen(!isDrawerOpen);
+    setValue(note.Content);
+    };
+
 
   let saveNote = async (ID) => {
 
-    // Get data from the form.
+    // Get data 
     const data = {
       id: ID,
       content: value,
@@ -47,6 +73,8 @@ function Note({ note, refreshData }) {
       body: JSONdata,
     };
 
+    setIsLoading(true);
+
     // Send the form data to our forms API on Vercel and get a response.
     const response = await fetch(endpoint, options);
 
@@ -54,18 +82,21 @@ function Note({ note, refreshData }) {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
-    if (result.data) {
-      refreshData();
+    console.log("AR:" + result.affectedRows);
+
+    if(parseInt(result.affectedRows) == 0 ){
+      openAlert("red", "Error updating note", "Error");
+      setIsLoading(false);
+      return;
+    }
+
+    if (parseInt(result.affectedRows) >= 1) {
+      openAlert("gray", "Note updated successfully", "Success");
       setIsEditing(!isEditing);
+      setIsLoading(false);
   }
 
   };
-
-  const editNote = () => {
-    setIsEditing(!isEditing);
-    setIsDrawerOpen(!isDrawerOpen);
-    setValue(note.Content);
-    };
 
   const deleteNote = async (ID) => {
 
@@ -102,6 +133,8 @@ function Note({ note, refreshData }) {
       body: JSONdata,
     };
 
+    setIsLoading(true);
+
     // Send the form data to our forms API on Vercel and get a response.
     const response = await fetch(endpoint, options);
 
@@ -109,8 +142,15 @@ function Note({ note, refreshData }) {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
-    if (result.data) {
-        refreshData();
+    if(parseInt(result.affectedRows) == 0 ){
+        openAlert("red", "Error deleting note", "Error");
+        setIsLoading(false);
+        return;
+    }
+
+    if (parseInt(result.affectedRows) >= 1) {
+        openAlert("gray", "Note deleted successfully", "Success");
+        setIsLoading(false);
     }
 }
 
@@ -118,6 +158,7 @@ function Note({ note, refreshData }) {
     <>
 
       <div className="px-4 py-5 sm:px-6" >
+      {showNotice && (<Alert colour={noticeColour} title={noticeTitle} message={noticeMessage} show={openAlert}/>)}
         <div className="bg-white overflow-hidden shadow-md rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             
@@ -174,10 +215,7 @@ function Note({ note, refreshData }) {
              }}
             />
             
-            
-
-          
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
               <div className="border-t border-gray-200"></div>
               
                 <button
@@ -199,6 +237,10 @@ function Note({ note, refreshData }) {
                   Save
                 </button>
 
+                {isLoading && (
+                    <FaSpinner class ="fa-spin ml-auto mr-2" />
+                )}
+
                 <button
                   type="button"
                   className="bg-white-500 hover:bg-gray-100 text-black font-bold px-1 rounded w-6 mb-5 mt-5 mr-5 ml-auto"
@@ -209,6 +251,8 @@ function Note({ note, refreshData }) {
 
                 <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m4.015 5.494h-.253c-.413 0-.747-.335-.747-.747s.334-.747.747-.747h5.253v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 .746.335.746.747s-.334.747-.746.747h-.254v15.435c0 .591-.448 1.071-1 1.071-2.873 0-11.127 0-14 0-.552 0-1-.48-1-1.071zm14.5 0h-13v15.006h13zm-4.25 2.506c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm-4.5 0c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm3.75-4v-.5h-3v.5z" fill-rule="nonzero"/></svg>
                 </button>
+
+                
          
             </div>
             </form>

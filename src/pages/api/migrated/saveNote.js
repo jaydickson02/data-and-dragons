@@ -1,6 +1,6 @@
 // pages/api/save-content.js
 
-import executeQuery from '../../../lib/db';
+import executeQuery from '../../lib/db';
 
 export default function handler(req, res) {
     const body = req.body;
@@ -13,8 +13,11 @@ export default function handler(req, res) {
         values: [body.content, body.objectID, body.session],
         }).then(results => {
             // Sends a HTTP success code
-            res.status(200).json({ data: `Affected Rows: ${results.affectedRows}` });
-        });;
+            res.status(200).json({ status: 200, affectedRows: results.affectedRows });
+          }).catch(() => {
+            // Sends a HTTP bad request code
+            res.status(400).json({ status: 400, affectedRows: results.affectedRows });
+          });
 
 
   }

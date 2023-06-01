@@ -6,7 +6,7 @@ function tableRow({ row }){
 
     return (
         <>
-            <tr class="hover:bg-gray-50" onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
+            <tr class="hover:bg-gray-50">
                 <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
                     <div class="relative h-10 w-10">
                         <img
@@ -82,8 +82,20 @@ function tableRow({ row }){
                         
                     </Link>
                     </button>
+
+                    <button class="bg-white-500 hover:bg-gray-100 text-black font-bold px-1 rounded w-8 mb-5 mt-5 mr-5 ml-auto" onClick={() => setIsDrawerOpen(!isDrawerOpen)}  >
+
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
+                        </svg>
+
+                    </button>
+
+
                 </td>
-                                                    
+                                                  
             </tr>
             <tr>
             {isDrawerOpen && (

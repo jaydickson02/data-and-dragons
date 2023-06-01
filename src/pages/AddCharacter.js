@@ -1,16 +1,34 @@
 
 import { useState } from 'react';
 import Layout from '../components/layout';
-import Notice from '../components/alert';
-import Navigation from '@/components/navigation';
+import Alert from '../components/elements/alert';
+import Navigation from '@/components/Navigation/navigation';
+
+import 'font-awesome/css/font-awesome.min.css';
+import { FaSpinner } from 'react-icons/fa';
 
 import { useRouter } from 'next/router';
+
+import { PostToDB } from '@/lib/DBUtils/PostCalls';
 
 
 export default function AddCharacter() {
 
-  const [noticeMessage, setNoticeMessage] = useState('');
-  const [noticeType, setNoticeType] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    //Open and manage the alert
+    const [noticeMessage, setNoticeMessage] = useState('');
+    const [noticeColour, setNoticeColour] = useState('');
+    const [showNotice, setShowNotice] = useState(false);
+    const [noticeTitle, setNoticeTitle] = useState('');
+  
+  
+    let openAlert = (colour, message, title) => {
+      setShowNotice(!showNotice);
+      setNoticeColour(colour);
+      setNoticeTitle(title);
+      setNoticeMessage(message);
+      };
 
   const router = useRouter();
 
@@ -45,83 +63,42 @@ export default function AddCharacter() {
     // Check that required fields are not empty.
     if (!data.name || !data.campaignID) {
 
-    // Set the notice message to display.
-    setNoticeType('error');
-    setNoticeMessage('Some values are missing.');
-    return;
-
+        // Set the notice message to display.
+        openAlert('red', 'Please fill in all required fields.', 'Error')
+        return;
     }
 
-    //Set Defaults
+    setIsLoading(true);
 
-    if (!data.class) {
-        data.class = "None";
-    }
+    // Send the data to the API route.
+    PostToDB("/api/add/character", data)
+    .then((result) => {
+        // If successful, show an alert.
+        openAlert('gray', 'Character added successfully.', 'Success')
 
-    if (!data.background) {
-        data.background = "None";
-    }
-
-    if (!data.image) {
-        data.image = "dice-black.png";
-    }
-
-    if (!data.playerName) {
-        data.playerName = "DM";
-    }
-
-    if (!data.affiliation) {
-        data.affiliation = "None";
-    }
-
-    if (!data.location) {
-        data.location = "None";
-    }
-
-    if (!data.race) {
-        data.race = "None";
-    }
-
-    // Send the data to the server in JSON format.
-    const JSONdata = JSON.stringify(data);
-
-    // API endpoint where we send form data.
-    const endpoint = '/api/addCharacter';
-
-    // Form the request for sending data to the server.
-    const options = {
-      // The method is POST because we are sending data.
-      method: 'POST',
-      // Tell the server we're sending JSON.
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // Body of the request is the JSON data we created above.
-      body: JSONdata,
-    };
-
-    // Send the form data to our forms API on Vercel and get a response.
-    const response = await fetch(endpoint, options);
-
-    // Get the response data from server as JSON.
-    // If server returns the name submitted, that means the form works.
-    const result = await response.json();
-
-    // Set the notice message to display.
-    if (result.data) {
-        setNoticeType('success');
-        setNoticeMessage(result.data);
+        // Set loading to false.
+        setIsLoading(false);
 
         // Clear the form.
         clearForm();
-    }
+      })
+      .catch((error) => {
+        console.error(error);
+
+        // Set loading to false.
+        setIsLoading(false);
+
+        // If there was an error, show an alert.
+        openAlert('red', 'There was an error adding the character.', 'Error')
+      });
+
   };
 
   return (
     <Layout>
     <Navigation />
     <div class="px-4 py-5 sm:px-6">
-      {noticeMessage && <Notice type={noticeType} message={noticeMessage} />}
+    {showNotice && (<Alert colour={noticeColour} title={noticeTitle} message={noticeMessage} show={openAlert}/>)}
     </div>
       <form class="px-4 py-5 sm:px-6" id="newCharacterForm" onSubmit={handleSubmit}>
       <div class="space-y-12">
@@ -278,6 +255,9 @@ export default function AddCharacter() {
             </div>
 
             <div class="mt-6 flex items-center justify-end gap-x-6">
+                {isLoading && (
+                    <FaSpinner class ="fa-spin" />
+                )}
                 <button type="button" class="text-sm font-semibold leading-6 text-gray-900" onClick={clearForm}>Clear</button>
                 <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add</button>
             </div>

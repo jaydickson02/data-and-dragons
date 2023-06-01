@@ -1,8 +1,9 @@
+//TODO: Migrate this to /api/remove/note/[id]
 
 // Get the notes from the database
 
 // Import db
-import executeQuery from '../../../lib/db';
+import executeQuery from '../../lib/db';
 
 export default function deleteNote(req, res) {
 
@@ -24,8 +25,9 @@ export default function deleteNote(req, res) {
         values: [body.id],
     }).then(results => {
         // Sends a HTTP success code
-        res.status(200).json({ data: results });
-
-        
-    });
+        res.status(200).json({ status: 200, affectedRows: results.affectedRows });
+      }).catch(() => {
+        // Sends a HTTP bad request code
+        res.status(400).json({ status: 400, affectedRows: results.affectedRows });
+      });
 }

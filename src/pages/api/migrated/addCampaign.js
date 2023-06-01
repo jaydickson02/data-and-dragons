@@ -1,5 +1,5 @@
 //Import db
-import executeQuery from '../../../lib/db';
+import executeQuery from '../../lib/db';
 
 export default function handler(req, res) {
   // Get data submitted in request's body.
@@ -21,9 +21,12 @@ export default function handler(req, res) {
   executeQuery({
     query: 'INSERT INTO Campaign (Name, DM, Background) VALUES (?, ?, ?)',
     values: [body.campaignName, body.dmName, body.about],
+  }).then(results => {
+    // Sends a HTTP success code
+    res.status(200).json({ status: 200, affectedRows: results.affectedRows });
+  }).catch(() => {
+    // Sends a HTTP bad request code
+    res.status(400).json({ status: 400, affectedRows: results.affectedRows });
   });
-
-
-  // Sends a HTTP success code
-  res.status(200).json({ data: `Campaign created. Name: ${body.campaignName}, DM: ${body.dmName}` });
+  
 }
