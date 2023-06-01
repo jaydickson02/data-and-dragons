@@ -8,6 +8,7 @@ import NoteRenderer from "@/components/notes/noteRenderer";
 import Alert from "@/components/elements/alert";
 import { getNotes, getCharacters } from "@/lib/DBUtils/GetCalls";
 import Error400 from "@components/Errors/400"
+import Loading from "@components/loading"
 
 import { useRouter } from 'next/router';
 
@@ -53,7 +54,7 @@ export default function campaign(props) {
     }
 
     if (notesIsLoading || charactersIsLoading) {
-        return <div>loading...</div>
+        return (<Loading />)
     }
     
     if(notes && characters){
