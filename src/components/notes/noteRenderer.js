@@ -157,7 +157,7 @@ function Note({ note }) {
   return (
     <>
 
-      <div className="py-5">
+      <div className="py-5 sm:px-6">
       {showNotice && (<Alert colour={noticeColour} title={noticeTitle} message={noticeMessage} show={openAlert}/>)}
         <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg">
           <div className="py-5 sm:p-6">
