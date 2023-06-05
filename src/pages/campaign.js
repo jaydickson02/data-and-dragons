@@ -107,56 +107,56 @@ export default function campaign(props) {
         
         {showNotice && (<Alert colour={noticeColour} title={noticeTitle} message={noticeMessage} show={openAlert}/>)}
 
-            <div class="px-4 py-5 sm:px-6">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">
+            <div class="px-4 py-5 sm:px-6 mb-5 shadow rounded-lg bg-white dark:bg-gray-800">
+                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
                 Campaign
                 </h3>
-                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-100">
                 Campaign details and background.
                 </p>
             </div>
 
             <div class="grid grid-cols-1 gap-4">
-                <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="bg-gray-800 overflow-hidden shadow rounded-lg">
                     <div class="px-4 py-5 sm:p-6">
                         <dl>
-                            <dt class="text-sm leading-5 font-medium text-gray-500 truncate">
+                            <dt class="text-sm leading-5 font-medium text-gray-100 dark:text-gray-100 truncate">
                                 Name
                             </dt>
-                            <dd class="mt-1 text-sm leading-5 text-gray-900">
+                            <dd class="mt-1 text-sm leading-5 text-gray-500 dark:text-gray-400">
                                 {props.campaign.Name}
                             </dd>
                         </dl>
 
                         <dl class="mt-4">
-                            <dt class="text-sm leading-5 font-medium text-gray-500 truncate">
-                                DM
+                            <dt class="text-sm leading-5 font-medium text-gray-100 truncate">
+                                Dungeon Master
                             </dt>
-                            <dd class="mt-1 text-sm leading-5 text-gray-900">
+                            <dd class="mt-1 text-sm leading-5 text-gray-400">
                                 {props.campaign.DM}
                             </dd>
                         </dl>
 
                         <dl class="mt-4">
-                            <dt class="text-sm leading-5 font-medium text-gray-500 truncate">
+                            <dt class="text-sm leading-5 font-medium text-gray-100 truncate">
                                 Description
                             </dt>
-                            <dd class="mt-1 text-sm leading-5 text-gray-900">
+                            <dd class="mt-1 text-sm leading-5 text-gray-400 h-32 overflow-auto">
                                 {props.campaign.Background}
                             </dd>
                         </dl>
                     </div>
                 </div>
             </div>
-        </div>
+        
 
 
   
-      <div class="px-4 py-5 sm:px-6">
-        <h3 class="text-lg leading-6 font-medium text-gray-900">
+      <div class="px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-white dark:bg-gray-800">
+        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
           Characters
         </h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+        <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-100">
           All characters in the campaign.
         </p>
       </div>
@@ -165,11 +165,11 @@ export default function campaign(props) {
         <Table data={characters.data}/>
 
 
-        <div class="px-4 py-5 sm:px-6">
-        <h3 id="notes" class="text-lg leading-6 font-medium text-gray-900">
+        <div class="px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-white dark:bg-gray-800">
+        <h3 id="notes" class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
           Notes
         </h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+        <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-100">
           All notes for the campaign.
         </p>
         </div>
@@ -179,7 +179,7 @@ export default function campaign(props) {
         ))}
 
         <Note ObjectID={props.campaign.ID} SessionNumber={sessionNumber} showAlert={openAlert}/>
-  
+        </div>
       </Layout>
   
       

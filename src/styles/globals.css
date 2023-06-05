@@ -32,6 +32,10 @@
   border-radius: 14px;
 }
 
+#cardContent {
+  height: 175px
+}
+
 /* For Notes */
 
 #noteContent ol li{
@@ -120,6 +124,7 @@
   font-size: 1em;
   font-weight: 400;
   margin-bottom: 0.5em;
+  width: 80%;
 }
 
 #noteContent a {

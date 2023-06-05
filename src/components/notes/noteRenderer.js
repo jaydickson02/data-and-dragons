@@ -157,13 +157,13 @@ function Note({ note }) {
   return (
     <>
 
-      <div className="px-4 py-5 sm:px-6" >
+      <div className="py-5">
       {showNotice && (<Alert colour={noticeColour} title={noticeTitle} message={noticeMessage} show={openAlert}/>)}
-        <div className="bg-white overflow-hidden shadow-md rounded-lg">
-          <div className="px-4 py-5 sm:p-6">
+        <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg">
+          <div className="py-5 sm:p-6">
             
             <dl id="noteContent">
-              <dt className="text-sm leading-5 font-medium text-gray-500 truncate flex justify-between">
+              <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-100 truncate flex justify-between">
 
               {isEditing && ( 
               <div class="flex items-center">
@@ -190,7 +190,7 @@ function Note({ note }) {
               {!isEditing && (
 
               <div className="border-t border-gray-200 pb-5" >
-                <dd className="mt-1 text-sm leading-5 text-gray-900" dangerouslySetInnerHTML={{ __html: note.Content}}>
+                <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100" dangerouslySetInnerHTML={{ __html: note.Content}}>
                 </dd>
               </div> 
             )}
@@ -204,7 +204,7 @@ function Note({ note }) {
              value={value}
              onChange={(value) => {setValue(value)}}
              placeholder="Type something..."
-             className="bg-white h-full rounded-md"
+             className="bg-white dark:bg-gray-800 dark:border-gray-800 h-full rounded-md dark:text-gray-100"
              modules={{
                toolbar: [
                  ['bold', 'italic', 'underline', 'strike'],

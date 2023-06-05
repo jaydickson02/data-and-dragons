@@ -4,19 +4,19 @@ import TableRow from './tableRow';
 export default function Table(props) {
 
     return (
-        <div class="overflow-auto rounded-lg border border-gray-200 shadow-md m-5">
-            <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th scope="col" class="px-6 py-4 font-medium text-gray-900">Name</th>
-                        <th scope="col" class="px-6 py-4 font-medium text-gray-900">Class</th>
-                        <th scope="col" class="px-6 py-4 font-medium text-gray-900">Race</th>
-                        <th scope="col" class="px-6 py-4 font-medium text-gray-900">Status / Location / Affiliation</th>
-                        <th scope="col" class="px-6 py-4 font-medium text-gray-900">Alignment / Level</th> 
-                        <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
+        <div class="overflow-auto rounded-lg border border-gray-200 dark:border-gray-800 shadow-md mt-5">
+            <table class="w-full border-collapse text-left text-sm text-gray-500 dark:bg-gray-800">
+                <thead class="bg-gray-50 dark:bg-gray-900">
+                    <tr class="text-gray-900 dark:text-gray-100">
+                        <th scope="col" class="px-6 py-4 font-medium">Name</th>
+                        <th scope="col" class="px-6 py-4 font-medium">Class</th>
+                        <th scope="col" class="px-6 py-4 font-medium">Race</th>
+                        <th scope="col" class="px-6 py-4 font-medium">Status / Location / Affiliation</th>
+                        <th scope="col" class="px-6 py-4 font-medium">Alignment / Level</th> 
+                        <th scope="col" class="px-6 py-4 font-medium"></th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+                <tbody class="divide-y divide-gray-100 border-t border-gray-100 dark:border-gray-800 dark:divide-gray-900">
 
                     {
                     props.data.map((rowData) => (
