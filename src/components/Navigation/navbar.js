@@ -3,6 +3,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
+import 'font-awesome/css/font-awesome.min.css';
+import { FaDragon } from 'react-icons/fa';
+
 export default function Navbar(props) {
 
     const [showMenu, setShowMenu] = useState(false);
@@ -15,12 +18,12 @@ return (
 <div class="pb-4">
         
 <div class="min-h-full">
-  <nav class="bg-gray-800">
+  <nav class="dark:bg-gray-800 bg-gray-200">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 items-center justify-between">
         <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <Image class="h-8 w-8" src="/dragon-white.svg" width="8" height="8" alt="Logo"></Image>
+          <div class="flex-shrink-0 text-gray-800 dark:text-white">
+            <FaDragon size={35}/>
           </div>
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">

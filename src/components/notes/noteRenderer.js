@@ -3,19 +3,23 @@ import Link from "next/link";
 import React from "react";
 import dynamic from 'next/dynamic';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-import 'react-quill/dist/quill.snow.css';
+//import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import Alert from "@/components/elements/alert";
 
 import 'font-awesome/css/font-awesome.min.css';
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner, FaEdit } from 'react-icons/fa';
+import { BiExpandAlt } from 'react-icons/bi';
+import { BsThreeDots } from "react-icons/bs";
 
 function Note({ note }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(note.Content);
   const [sessionNumber, setSessionNumber] = useState(note.Session);
+  const [collapsed, setCollapsed] = useState(true);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -154,46 +158,81 @@ function Note({ note }) {
     }
 }
 
-  return (
-    <>
+  if(collapsed) {
 
-      <div className="py-5 sm:px-6">
-      {showNotice && (<Alert colour={noticeColour} title={noticeTitle} message={noticeMessage} show={openAlert}/>)}
-        <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg">
-          <div className="py-5 sm:p-6">
+    return(
+      <div className="my-5">
+      <div className="bg-white hover:bg-gray-50 dark:hover:bg-gray-600 dark:bg-gray-800 overflow-hidden shadow-md rounded-lg" onClick={() => {setCollapsed(false)}}>
+          <div className="p-6">
             
             <dl id="noteContent">
               <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-100 truncate flex justify-between">
+                <div>
+              {note.Session == 0 ? "No Notes" : "Session " + note.Session}
+              </div>
+              <div>
+                <BiExpandAlt class="fa"/>
+              </div>
+
+              </dt>
+            </dl>
+          </div>
+        </div>
+        </div>
+
+              
+      
+    )
+
+  }else{
+
+  return (
+    <>
+
+      <div className="my-5">
+      {showNotice && (<Alert colour={noticeColour} title={noticeTitle} message={noticeMessage} show={openAlert}/>)}
+        <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg">
+          <div>
+            
+            <dl id="noteContent">
+              <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-100 truncate flex justify-between p-6 hover:bg-gray-50 dark:hover:bg-gray-600" onClick={() => {setCollapsed(true)}}>
 
               {isEditing && ( 
-              <div class="flex items-center">
-              <label class="mr-2" for="sessionNumber">Session:</label>
-              <input type="number" class="w-24" id="sessionNumber" value={sessionNumber} onChange={() => {setSessionNumber(document.getElementById("sessionNumber").value)}}></input>
-              </div>
+                <div class="flex items-center">
+                  <label class="mr-2" for="sessionNumber">Session:</label>
+                  <input type="number" class="w-24 dark:bg-gray-800" id="sessionNumber" value={sessionNumber} onChange={() => {setSessionNumber(document.getElementById("sessionNumber").value)}}></input>
+                </div>
               )}
-
+              <div>
               {!isEditing && (note.Session == 0 ? "No Notes" : "Session " + note.Session)}
 
-              {!isEditing && (<button class="bg-white-500 hover:bg-gray-100 text-black font-bold px-1 mb-2 rounded ml-auto" onClick={() => editNote(note.ID)}>
- 
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                        <circle cx="12" cy="12" r="1"></circle>
-                        <circle cx="19" cy="12" r="1"></circle>
-                        <circle cx="5" cy="12" r="1"></circle>
-                        </svg>
-                </button>)}
-                
-                
-                
-                </dt>
+              </div>
+                <div class="ml-auto">
+                  <BiExpandAlt class="fa"/>
+                </div>
+              </dt>
 
               {!isEditing && (
-
-              <div className="border-t border-gray-200 pb-5" >
+              <>
+              <div className="px-6 pb-5" >
                 <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100" dangerouslySetInnerHTML={{ __html: note.Content}}>
                 </dd>
+
+                {!isEditing && (
+                
+                <div className="flex items-center p-5">
+              
+                  <button class="text-black dark:text-gray-400" type="button" onClick={() => {editNote(note.ID)}}>
+                    <FaEdit class="fa" size={20}/>
+                  </button>
+
+                </div>
+                )}
+                
               </div> 
+              </>
             )}
+
             </dl>
           </div>
 
@@ -202,6 +241,7 @@ function Note({ note }) {
             <form id="noteEditForm">
             <ReactQuill
              value={value}
+             theme="bubble"
              onChange={(value) => {setValue(value)}}
              placeholder="Type something..."
              className="bg-white dark:bg-gray-800 dark:border-gray-800 h-full rounded-md dark:text-gray-100"
@@ -217,17 +257,6 @@ function Note({ note }) {
             
             <div className="flex justify-between items-center">
               <div className="border-t border-gray-200"></div>
-              
-                <button
-                  type="button"
-                  className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-gray-600 hover:bg-gray-500 focus:outline-none focus:border-gray-700 focus:shadow-outline-gray active:bg-gray-700 transition ease-in-out duration-150 ml-2 mb-5 mt-5"
-                  
-                  onClick={() => {
-                    editNote(note.ID);
-                  }}
-                >
-                  Cancel
-                </button>
 
                 <button
                   type="button"
@@ -238,7 +267,7 @@ function Note({ note }) {
                 </button>
 
                 {isLoading && (
-                    <FaSpinner class ="fa-spin ml-auto mr-2" />
+                    <FaSpinner class ="fa fa-spin ml-auto mr-2" />
                 )}
 
                 <button
@@ -257,10 +286,12 @@ function Note({ note }) {
             </div>
             </form>
           )}
+          
         </div>
       </div>
     </>
-  );
+  )
+  }
 }
 
 export default Note;

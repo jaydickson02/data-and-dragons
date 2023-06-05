@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-import 'react-quill/dist/quill.snow.css';
+//import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css';
 import { PostToDB } from '@/lib/DBUtils/PostCalls';
 
 import 'font-awesome/css/font-awesome.min.css';
 import { FaSpinner } from 'react-icons/fa';
 
 export default function Note(props) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(
+    '<p>Write a new note here...</p> <br></br> <br></br>'
+    );
   const [isLoading, setIsLoading] = useState(false);
 
   function handleChange(newValue) {
@@ -16,7 +19,7 @@ export default function Note(props) {
   }
 
   const clearField = () => {
-    setValue('');
+    setValue('<p>Write a new note here...</p> <br></br> <br></br>');
   }
 
   const handleSubmit = async (event) => {
@@ -55,9 +58,11 @@ export default function Note(props) {
     <form id="noteForm" onSubmit={handleSubmit}>
       <ReactQuill
        value={value}
+       theme="bubble"
+       spellcheck="true"
        onChange={handleChange}
-       placeholder="Type something..."
-       className="bg-white p-4 h-64 rounded-md"
+       className="px-2 bg-gray-200 dark:bg-gray-800 dark:text-gray-100 rounded-md"
+       placeholder=""
        modules={{
          toolbar: [
            ['bold', 'italic', 'underline', 'strike'],
@@ -69,7 +74,7 @@ export default function Note(props) {
        }}
       />
       
-       <div class="px-4 py-10 sm:px-6">
+       <div class="py-3">
             <div class="flex items-center">   
                 <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
                 Add
