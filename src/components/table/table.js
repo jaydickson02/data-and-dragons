@@ -5,27 +5,27 @@ export default function Table(props) {
 
     return (
 
-        <div class="border border-gray-200 dark:border-gray-800 shadow-md mt-5 overflow-auto">
-  <table class="w-full border-collpse text-left text-sm text-gray-500 dark:bg-gray-800">
-    <thead class="bg-gray-50 dark:bg-gray-900">
-      <tr class="flex justify-evenly text-gray-900 dark:text-gray-100 text-center">
-        <th scope="col" class="px-6 py-4 font-medium">Name</th>
-        <th scope="col" class="px-6 py-4 font-medium">Class</th>
-        <th scope="col" class="px-6 py-4 font-medium">Race</th>
-        <th scope="col" class="px-6 py-4 font-medium">Status / Location / Affiliation</th>
-        <th scope="col" class="px-6 py-4 font-medium">Alignment / Level</th> 
-        <th scope="col" class="px-6 py-4 font-medium"></th>
-      </tr>
-    </thead>
-    
-  </table>
-  <div class="max-h-96 overflow-y-scroll overflow-x-visible">
-    <table class="w-full border-collapse text-left text-sm text-gray-500 dark:bg-gray-800">
-      <tbody class="divide-y divide-gray-100 border-t border-gray-100 dark:border-gray-800 dark:divide-gray-900">
-        {props.data.map((rowData) => (
-          <TableRow key={rowData.ID} row={rowData} />
-        ))}
-      </tbody>
+<div class="border border-gray-200 dark:border-gray-900 bg-gray-200 dark:bg-gray-900 shadow-md mt-5">
+  
+  <div class="max-h-96 overflow-y-scroll w-full">
+    <table class="w-full border-collapse text-left text-sm text-gray-500 bg-white dark:bg-gray-800">
+        <thead class="divide-y divide-gray-100 border-t border-gray-100 dark:border-gray-800 dark:divide-gray-900 dark:bg-gray-900 bg-gray-200 sticky top-0">
+        <tr class="text-gray-900 dark:text-gray-100 text-center">
+            <th scope="col" class="px-6 py-4 font-medium">Name</th>
+            <th scope="col" class="px-6 py-4 font-medium">Class</th>
+            <th scope="col" class="px-6 py-4 font-medium">Race</th>
+            <th scope="col" class="px-6 py-4 font-medium">Status | Location | Affiliation</th>
+            <th scope="col" class="px-6 py-4 font-medium">Alignment | Level</th> 
+            <th scope="col" class="px-6 py-4 font-medium">Options</th>
+        </tr>
+        </thead>
+
+        <tbody class="overflow-y-hidden divide-y divide-gray-100 border-t border-gray-100 dark:border-gray-800 dark:divide-gray-900 mt-16">
+            {props.data.map((rowData) => (
+            <TableRow key={rowData.ID} row={rowData} />
+            ))}
+        </tbody>
+
     </table>
 
     

@@ -61,7 +61,7 @@ export default function Note(props) {
        theme="bubble"
        spellcheck="true"
        onChange={handleChange}
-       className="px-2 bg-gray-200 dark:bg-gray-800 dark:text-gray-100 rounded-md"
+       className="px-2 mt-16 bg-gray-100 dark:bg-gray-800 dark:text-gray-100 rounded-md"
        placeholder=""
        modules={{
          toolbar: [

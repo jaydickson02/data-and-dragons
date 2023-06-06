@@ -102,76 +102,76 @@ export default function AddCharacter() {
     </div>
       <form class="px-4 py-5 sm:px-6" id="newCharacterForm" onSubmit={handleSubmit}>
       <div class="space-y-12">
-                <div class="border-b border-gray-900/10 pb-12">
-                <h2 class="text-base font-semibold leading-7 text-gray-900">New Character</h2>
-                <p class="mt-1 text-sm leading-6 text-gray-600">Information for a new character</p>
+                <div class="border-b border-gray-900/10 rounded-lg pb-12 pl-5 pr-5 pt-5 dark:bg-gray-800">
+                <h2 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-200">New Character</h2>
+                <p class="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-100">Information for a new character</p>
 
 
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div class="sm:col-span-4">
-                        <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+                        <label for="name" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Name</label>
                         <div class="mt-2">
                             <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                             <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm"></span>
-                            <input type="text" name="name" id="name" autocomplete="name" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Demon Lord - Destroyer of All"></input>
+                            <input type="text" name="name" id="name" autocomplete="name" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-gray-100" placeholder="Demon Lord - Destroyer of All"></input>
                             </div>
                         </div>
                     </div>
 
                     <div class="sm:col-span-4">
-                        <label for="image" class="block text-sm font-medium leading-6 text-gray-900">Image</label>
+                        <label for="image" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Image</label>
                         <div class="mt-2">
                             <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                             <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm"></span>
-                            <input type="text" name="image" id="image" autocomplete="image" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="www.imagehost.com/image"></input>
+                            <input type="text" name="image" id="image" autocomplete="image" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-gray-100" placeholder="www.imagehost.com/image"></input>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-span-full">
-                        <label for="background" class="block text-sm font-medium leading-6 text-gray-900">Background</label>
+                        <label for="background" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Background</label>
                         <div class="mt-2">
-                            <textarea id="background" name="background" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Once upon a time..."></textarea>
+                            <textarea id="background" name="background" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:text-gray-100 dark:bg-gray-800" placeholder="Once upon a time..."></textarea>
                         </div>
-                        <p class="mt-3 text-sm leading-6 text-gray-600">Outline the Characters Background.</p>
+                        <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-100">Outline the Characters Background.</p>
                     </div>
 
                     
                 </div>
                 </div>
 
-                <div class="border-b border-gray-900/10 pb-12">
-                <h2 class="text-base font-semibold leading-7 text-gray-900">Details</h2>
-                <p class="mt-1 text-sm leading-6 text-gray-600">Add the specifics of the Character.</p>
+                <div class="border-b border-gray-900/10 pb-12 rounded-lg pb-12 pl-5 pr-5 pt-5 dark:bg-gray-800">
+                <h2 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-200 ">Details</h2>
+                <p class="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-100">Add the specifics of the Character.</p>
 
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div class="sm:col-span-2">
-                    <label for="class" class="block text-sm font-medium leading-6 text-gray-900">Class</label>
+                    <label for="class" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Class</label>
                     <div class="mt-2">
-                        <input type="text" name="class" id="class" autocomplete="class" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Wizard"></input>
+                        <input type="text" name="class" id="class" autocomplete="class" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:text-gray-100 dark:bg-gray-800" placeholder="Wizard"></input>
                     </div>
                     </div>
 
                     <div class="sm:col-span-2">
-                    <label for="race" class="block text-sm font-medium leading-6 text-gray-900">Race</label>
+                    <label for="race" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Race</label>
                     <div class="mt-2">
-                        <input type="text" name="race" id="race" autocomplete="race" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder='Human. Probably.'></input>
+                        <input type="text" name="race" id="race" autocomplete="race" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:text-gray-100 dark:bg-gray-800" placeholder='Human. Probably.'></input>
                     </div>
                     </div>
 
                     <div class="col-span-2">
-                    <label for="playerName" class="block text-sm font-medium leading-6 text-gray-900">Player Name</label>
+                    <label for="playerName" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Player Name</label>
                     <div class="mt-2">
-                        <input type="text" name="playerName" id="playerName" autocomplete="playerName" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Mike Wheeler"></input>
+                        <input type="text" name="playerName" id="playerName" autocomplete="playerName" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:text-gray-100 dark:bg-gray-800" placeholder="Mike Wheeler"></input>
                     </div>
                     </div>
 
 
 
                     <div class="sm:col-span-2">
-                    <label for="characterType" class="block text-sm font-medium leading-6 text-gray-900">Character Type</label>
+                    <label for="characterType" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Character Type</label>
                     <div class="mt-2">
-                        <select id="characterType" name="characterType" autocomplete="characterType" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-s sm:text-sm sm:leading-6">
+                        <select id="characterType" name="characterType" autocomplete="characterType" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-s sm:text-sm sm:leading-6 dark:text-gray-100 dark:bg-gray-800">
                         <option>NPC</option>
                         <option>Player</option>
                         </select>
@@ -179,9 +179,9 @@ export default function AddCharacter() {
                     </div>
 
                     <div class="sm:col-span-2">
-                    <label for="alignment" class="block text-sm font-medium leading-6 text-gray-900">Alignment</label>
+                    <label for="alignment" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Alignment</label>
                     <div class="mt-2">
-                        <select id="alignment" name="alignment" autocomplete="alignment" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-s sm:text-sm sm:leading-6">
+                        <select id="alignment" name="alignment" autocomplete="alignment" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-s sm:text-sm sm:leading-6 dark:text-gray-100 dark:bg-gray-800">
                         <option>Lawful Good</option>
                         <option>Lawful Neutral</option>
                         <option>Lawful Evil</option>
@@ -196,9 +196,9 @@ export default function AddCharacter() {
                     </div>
 
                     <div class="sm:col-span-2">
-                    <label for="status" class="block text-sm font-medium leading-6 text-gray-900">Status</label>
+                    <label for="status" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Status</label>
                     <div class="mt-2">
-                        <select id="status" name="status" autocomplete="status" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-s sm:text-sm sm:leading-6">
+                        <select id="status" name="status" autocomplete="status" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-s sm:text-sm sm:leading-6 dark:text-gray-100 dark:bg-gray-800">
                         <option>Alive</option>
                         <option>Dead</option>
                         <option>Missing</option>
@@ -209,23 +209,23 @@ export default function AddCharacter() {
                     </div>
 
                     <div class="sm:col-span-2">
-                    <label for="location" class="block text-sm font-medium leading-6 text-gray-900">Location</label>
+                    <label for="location" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Location</label>
                     <div class="mt-2">
-                        <input type="text" name="location" id="location" autocomplete="location" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder='Surrounded by giant spiders'></input>
+                        <input type="text" name="location" id="location" autocomplete="location" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:text-gray-100 dark:bg-gray-800" placeholder='Surrounded by giant spiders'></input>
                     </div>
                     </div>
 
                     <div class="sm:col-span-2">
-                    <label for="affiliation" class="block text-sm font-medium leading-6 text-gray-900">Affiliation</label>
+                    <label for="affiliation" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Affiliation</label>
                     <div class="mt-2">
-                        <input type="text" name="affiliation" id="affiliation" autocomplete="affiliation" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder='The Whitest Knights'></input>
+                        <input type="text" name="affiliation" id="affiliation" autocomplete="affiliation" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:text-gray-100 dark:bg-gray-800" placeholder='The Whitest Knights'></input>
                     </div>
                     </div>
 
                     <div class="sm:col-span-2">
-                    <label for="level" class="block text-sm font-medium leading-6 text-gray-900">level</label>
+                    <label for="level" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">level</label>
                     <div class="mt-2">
-                        <select id="level" name="level" autocomplete="level" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-s sm:text-sm sm:leading-6">
+                        <select id="level" name="level" autocomplete="level" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-s sm:text-sm sm:leading-6 dark:text-gray-100 dark:bg-gray-800">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>

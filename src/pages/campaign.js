@@ -117,7 +117,7 @@ export default function campaign(props) {
             </div>
 
             <div class="grid grid-cols-1 gap-4">
-                <div class="dark:bg-gray-800 bg-gray-100 overflow-hidden shadow rounded-lg">
+                <div class="dark:bg-gray-800 bg-white overflow-hidden shadow rounded-lg">
                     <div class="px-4 py-5 sm:p-6">
                         <dl>
                             <dt class="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100 truncate">
