@@ -83,7 +83,7 @@ export default function AddCampaign() {
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
 {showNotice && (<Alert colour={noticeColour} title={noticeTitle} message={noticeMessage} show={openAlert}/>)}
 </div>
-    
+<div class="sm:px-6">
 <form class="rounded-lg max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 pt-5 pl-5 pr-5 mb-10 dark:bg-gray-800" id="newCampaignForm" onSubmit={handleSubmit}>
   <div class="space-y-12">
     <div class="border-b border-gray-900/10 pb-12">
@@ -151,7 +151,7 @@ export default function AddCampaign() {
     <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create</button>
   </div>
 </form>
-
+</div>
 
         </Layout>
     )
