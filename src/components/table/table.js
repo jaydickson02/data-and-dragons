@@ -19,7 +19,7 @@ export default function Table(props) {
     </thead>
     
   </table>
-  <div class="max-h-96 overflow-y-scroll">
+  <div class="max-h-96 overflow-y-scroll overflow-x-visible">
     <table class="w-full border-collapse text-left text-sm text-gray-500 dark:bg-gray-800">
       <tbody class="divide-y divide-gray-100 border-t border-gray-100 dark:border-gray-800 dark:divide-gray-900">
         {props.data.map((rowData) => (
