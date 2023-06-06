@@ -5,8 +5,8 @@ export default function Table(props) {
 
     return (
 
-        <div class="border border-gray-200 dark:border-gray-800 shadow-md mt-5">
-  <table class="w-full overflow-auto border-collapse text-left text-sm text-gray-500 dark:bg-gray-800">
+        <div class="border border-gray-200 dark:border-gray-800 shadow-md mt-5 overflow-auto">
+  <table class="w-full border-collpse text-left text-sm text-gray-500 dark:bg-gray-800">
     <thead class="bg-gray-50 dark:bg-gray-900">
       <tr class="flex justify-evenly text-gray-900 dark:text-gray-100 text-center">
         <th scope="col" class="px-6 py-4 font-medium">Name</th>
