@@ -1,20 +1,32 @@
+//React
 import { useState } from "react";
-import Link from "next/link";
 import React from "react";
+
+//Components
+import Alert from "@/components/elements/alert";
+
+//Database
+import { DeleteFromDB } from "@/lib/DBUtils/RemoveCalls";
+import { PostToDB } from "@/lib/DBUtils/PostCalls";
+
+//Next
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import Link from "next/link";
 import dynamic from 'next/dynamic';
+
+//Quill
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 //import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import Alert from "@/components/elements/alert";
 
+//Icons
 import 'font-awesome/css/font-awesome.min.css';
 import { FaSpinner, FaEdit } from 'react-icons/fa';
 import { BiExpandAlt } from 'react-icons/bi';
 import { BsThreeDots } from "react-icons/bs";
 
-function Note({ note }) {
+export default function Note({ note }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(note.Content);
@@ -28,7 +40,6 @@ function Note({ note }) {
   const [noticeColour, setNoticeColour] = useState('');
   const [showNotice, setShowNotice] = useState(false);
   const [noticeTitle, setNoticeTitle] = useState('');
-
 
   let openAlert = (colour, message, title) => {
     setShowNotice(!showNotice);
@@ -86,8 +97,6 @@ function Note({ note }) {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
-    console.log("AR:" + result.affectedRows);
-
     if(parseInt(result.affectedRows) == 0 ){
       openAlert("red", "Error updating note", "Error");
       setIsLoading(false);
@@ -104,6 +113,8 @@ function Note({ note }) {
 
   const deleteNote = async (ID) => {
 
+    console.log("I RAN 4")
+
     // Get data from the form.
     const data = {
         id: ID,
@@ -117,45 +128,29 @@ function Note({ note }) {
 
     }
 
-    //Delete the note from the database
-
-    // Send the data to the server in JSON format.
-    const JSONdata = JSON.stringify(data);
-
-    // API endpoint where we send form data.
-    const endpoint = '/api/deleteNote';
-
-    // Form the request for sending data to the server.
-    const options = {
-      // The method is POST because we are sending data.
-      method: 'POST',
-      // Tell the server we're sending JSON.
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // Body of the request is the JSON data we created above.
-      body: JSONdata,
-    };
-
     setIsLoading(true);
 
-    // Send the form data to our forms API on Vercel and get a response.
-    const response = await fetch(endpoint, options);
+    DeleteFromDB('/api/remove/note', data)
+    .then((result) => {
+      console.log("I RAN 3")
+      // If successful, show an alert.
+      openAlert('gray', 'Note removed successfully.', 'Success')
 
-    // Get the response data from server as JSON.
-    // If server returns the name submitted, that means the form works.
-    const result = await response.json();
+      // Set loading to false.
+      setIsLoading(false);
 
-    if(parseInt(result.affectedRows) == 0 ){
-        openAlert("red", "Error deleting note", "Error");
-        setIsLoading(false);
-        return;
-    }
+    })
+    .catch((error) => {
+      console.log("I RAN 2")
+      //console.error(error);
 
-    if (parseInt(result.affectedRows) >= 1) {
-        openAlert("gray", "Note deleted successfully", "Success");
-        setIsLoading(false);
-    }
+      // Set loading to false.
+      setIsLoading(false);
+
+      // If there was an error, show an alert.
+      openAlert('red', 'There was an error deleting the note.', 'Error')
+    });
+
 }
 
   if(collapsed) {
@@ -294,4 +289,3 @@ function Note({ note }) {
   }
 }
 
-export default Note;

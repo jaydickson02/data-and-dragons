@@ -41,6 +41,10 @@ export async function getServerSideProps() {
         });
 
         const campaigns = result
+
+        console.log(campaigns)
+
+        // campaigns = {Name: "Example Campaign", Background: "This is an example campaign", CoverImage: "https://images.unsplash.com/photo-1634132824518-9f7e0b9f3c9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMjIyMzV8MHwxfGFsbHwxf"}
     
         return {
             props: {
