@@ -1,22 +1,19 @@
 import executeQuery from '../lib/db';
 import Layout from "@/components/layout";
-import Navigation from "@/components/Navigation/navigation";
-import Table from "@/components/table/table";
-import Note from "@/components/notes/note";
-import { useState, useEffect } from 'react';
-import NoteRenderer from "@/components/notes/noteRenderer";
+import CampaignHeader from "@/components/Campaign/CampaignHeader";
+import CampaignOverview from "@/components/Campaign/CampaignOverview";
+import CampaignCharacters from "@/components/Campaign/CampaignCharacters";
+import CampaignNotes from "@/components/Campaign/CampaignNotes";
 import Alert from "@/components/elements/alert";
 import Error400 from "@components/Errors/400";
 import Loading from "@components/loading";
-import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 
 export default function Campaign(props) {
-    const router = useRouter();
     const [noticeMessage, setNoticeMessage] = useState('');
     const [noticeColour, setNoticeColour] = useState('');
     const [showNotice, setShowNotice] = useState(false);
     const [noticeTitle, setNoticeTitle] = useState('');
-
     const [notes, setNotes] = useState(null);
     const [characters, setCharacters] = useState(null);
     const [notesError, setNotesError] = useState(null);
@@ -112,7 +109,6 @@ export default function Campaign(props) {
 
         return (
             <Layout>
-                <Navigation />
                 <div className="px-4 py-5 sm:px-6">
                     {showNotice && (
                         <Alert
@@ -122,135 +118,30 @@ export default function Campaign(props) {
                             show={() => setShowNotice(false)}
                         />
                     )}
-
-<div
-                        className="relative px-4 pb-10 pt-4 sm:px-6 flex flex-col items-center"
-                        style={{
-                            backgroundImage: `url(${props.campaign.CoverImage})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            borderRadius: '1.5rem',
-                        }}
-                    >
-                        <div className="px-8 py-5 mb-20 mt-20 m-auto shadow rounded-3xl bg-gray-200 dark:bg-gray-900 flex justify-center">
-                            <h2 className="text-3xl leading-6 font-medium text-gray-900 dark:text-gray-100">
-                                {props.campaign.Name}
-                            </h2>
-                        </div>
-
-                        <div className="flex space-x-2 mt-4">
-                            <button
-                                className={`px-4 py-2 focus:outline-none ${activeTab === 'campaign' ? 'bg-indigo-600  text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100'} rounded-full`}
-                                onClick={() => setActiveTab('campaign')}
-                            >
-                                Overview
-                            </button>
-                            <button
-                                className={`px-4 py-2 focus:outline-none ${activeTab === 'characters' ? 'bg-indigo-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100'} rounded-full`}
-                                onClick={() => setActiveTab('characters')}
-                            >
-                                Characters
-                            </button>
-                            <button
-                                className={`px-4 py-2 focus:outline-none ${activeTab === 'notes' ? 'bg-indigo-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100'} rounded-full`}
-                                onClick={() => setActiveTab('notes')}
-                            >
-                                Notes
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="mb-5 flex justify-center">
-                    </div>
-
-
-                    {activeTab === 'campaign' && (
-                        <>
-                            <div className="px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
-                                <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
-                                    Overview
-                                </h3>
-                                <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-100">
-                                    Information about the campaign.
-                                </p>
-                            </div>
-                            <div className="dark:bg-gray-800 bg-white overflow-hidden shadow rounded-lg">
-                                <div className="px-4 py-5 sm:p-6">
-                                    <dl>
-                                        <dt className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100 truncate">
-                                            Name
-                                        </dt>
-                                        <dd className="mt-1 text-sm leading-5 text-gray-800 dark:text-gray-400">
-                                            {props.campaign.Name}
-                                        </dd>
-                                    </dl>
-                                    <dl className="mt-4">
-                                        <dt className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100 truncate">
-                                            Dungeon Master
-                                        </dt>
-                                        <dd className="mt-1 text-sm leading-5 text-gray-800 dark:text-gray-400">
-                                            {props.campaign.DM}
-                                        </dd>
-                                    </dl>
-                                    <dl className="mt-4">
-                                        <dt className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100 truncate">
-                                            Description
-                                        </dt>
-                                        <dd className="mt-1 text-sm leading-5 text-gray-800 dark:text-gray-400">
-                                            {props.campaign.Background}
-                                        </dd>
-                                    </dl>
-                                </div>
-                            </div>
-                        </>
-                    )}
-
-                    {activeTab === 'characters' && (
-                        <>
-                            <div className="px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
-                                <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
-                                    Characters
-                                </h3>
-                                <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-100">
-                                    All characters in the campaign.
-                                </p>
-                            </div>
-                            <Table data={characters.data} />
-                        </>
-                    )}
-
+                    <CampaignHeader campaign={props.campaign} activeTab={activeTab} setActiveTab={setActiveTab} />
+                    {activeTab === 'campaign' && <CampaignOverview campaign={props.campaign} />}
+                    {activeTab === 'characters' && <CampaignCharacters characters={characters} openAlert={openAlert} />}
                     {activeTab === 'notes' && (
-                        <>
-                            <div className="px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
-                                <h3 id="notes" className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
-                                    Notes
-                                </h3>
-                                <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-100">
-                                    All notes for the campaign.
-                                </p>
-                            </div>
-                            {notes.data.map((note) => (
-                                <NoteRenderer key={note.ID} note={note} onUpdate={() => setFetchNotesTrigger(!fetchNotesTrigger)} />
-                            ))}
-                            <Note 
-                                ObjectID={props.campaign.ID} 
-                                SessionNumber={sessionNumber} 
-                                showAlert={openAlert}
-                                onNewNote={() => setFetchNotesTrigger(!fetchNotesTrigger)}
-                            />
-                        </>
+                        <CampaignNotes
+                            notes={notes}
+                            campaignID={props.campaign.ID}
+                            sessionNumber={sessionNumber}
+                            openAlert={openAlert}
+                            setFetchNotesTrigger={setFetchNotesTrigger}
+                        />
                     )}
                 </div>
             </Layout>
         );
     }
 }
+
 export async function getServerSideProps({ query }) {
     let campaignQuery = await executeQuery({
-    query: 'SELECT * FROM Campaign WHERE ID = ?',
-    values: [query.ID],
+        query: 'SELECT * FROM Campaign WHERE ID = ?',
+        values: [query.ID],
     });
     const campaign = campaignQuery[0];
 
-return { props: { campaign } };
+    return { props: { campaign } };
 }
