@@ -11,12 +11,12 @@ export default function Layout({ children }) {
       <Helmet>
         <meta charSet="utf-8" />
         <title>Data and Dragons</title>
-        <body class="bg-white-0 dark:bg-gray-700"/>
+        <body className="bg-white-0 dark:bg-gray-700"/>
       </Helmet>
 
-      <div class="flex flex-col h-screen">
+      <div className="flex flex-col h-screen">
         <Navbar />
-          <main class="flex-grow">
+          <main className="flex-grow">
             {children}
           </main>
         <Footer />
