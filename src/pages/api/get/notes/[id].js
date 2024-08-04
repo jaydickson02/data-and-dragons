@@ -1,28 +1,25 @@
-// Get the notes from the database
-
-// Import db
 import executeQuery from '@lib/db';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
+    try {
+        const { id } = req.query;
 
-    // Get data in the url
-    const { id } = req.query;
-    
+        // Check that required fields are not empty.
+        if (!id) {
+            return res.status(400).json({ data: 'Missing required fields.' });
+        }
 
-    // Check that required fields are not empty.
-    if (!id) {
-        res.status(400).json({ data: 'Missing required fields.' });
-    }
+        const results = await executeQuery({
+            query: 'SELECT * FROM Notes WHERE ObjectID = ? ORDER BY Session ASC',
+            values: [id],
+        });
 
-    executeQuery({
-        query: 'SELECT * FROM Notes WHERE ObjectID = ? ORDER BY Session ASC',
-        values: [id],
-    }).then(results => {
+        return res.status(200).json({ data: results });
+    } catch (error) {
+        // Log the error for debugging
+        console.error('Error fetching notes:', error);
 
-        res.status(200).json({ data: results})
-
-      }).catch(error => {
         // Sends a HTTP bad request code
-        res.status(400).json({ data: error });
-      });
+        return res.status(400).json({ data: error.message });
+    }
 }

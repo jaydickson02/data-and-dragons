@@ -1,28 +1,26 @@
-// Get the notes from the database
-
 // Import db
 import executeQuery from '@lib/db';
 
-export default function handler(req, res) {
-
-    // Get data in the url
+export default async function handler(req, res) {
     const { id } = req.query;
-    
 
     // Check that required fields are not empty.
     if (!id) {
-        res.status(400).json({ data: 'Missing required fields.' });
+        return res.status(400).json({ data: 'Missing required fields.' });
     }
 
-    executeQuery({
-        query: 'SELECT * FROM Characters WHERE CampaignID = ?',
-        values: [id],
-    }).then(results => {
+    try {
+        const results = await executeQuery({
+            query: 'SELECT * FROM Characters WHERE CampaignID = ?',
+            values: [id],
+        });
 
-        res.status(200).json({ data: results})
+        return res.status(200).json({ data: results });
+    } catch (error) {
+        // Log the error for debugging
+        console.error('Error fetching characters:', error);
 
-      }).catch(error => {
         // Sends a HTTP bad request code
-        res.status(400).json({ data: error });
-      });
+        return res.status(400).json({ data: error.message });
+    }
 }
