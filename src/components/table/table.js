@@ -1,49 +1,41 @@
-import Link from 'next/link'
-import TableRow from './tableRow';
+import Link from 'next/link';
+import ListRow from '@/components/table/listRow';
+import { useState } from 'react';
 
-export default function Table(props) {
+export default function List(props) {
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const filteredData = props.data.filter(row => 
+        row.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.Class.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.Race.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.Status.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.Location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.Affiliation.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.Alignment.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
-
-<div class="border border-gray-200 dark:border-gray-900 bg-gray-200 dark:bg-gray-900 shadow-md mt-5">
-  
-  <div class="max-h-96 overflow-y-scroll w-full">
-    <table class="w-full border-collapse text-left text-sm text-gray-500 bg-white dark:bg-gray-800">
-        <thead class="divide-y divide-gray-100 border-t border-gray-100 dark:border-gray-800 dark:divide-gray-900 dark:bg-gray-900 bg-gray-200 sticky top-0">
-        <tr class="text-gray-900 dark:text-gray-100 text-center">
-            <th scope="col" class="px-6 py-4 font-medium">Name</th>
-            <th scope="col" class="px-6 py-4 font-medium">Class</th>
-            <th scope="col" class="px-6 py-4 font-medium">Race</th>
-            <th scope="col" class="px-6 py-4 font-medium">Status | Location | Affiliation</th>
-            <th scope="col" class="px-6 py-4 font-medium">Alignment | Level</th> 
-            <th scope="col" class="px-6 py-4 font-medium">Options</th>
-        </tr>
-        </thead>
-
-        <tbody class="overflow-y-hidden divide-y divide-gray-100 border-t border-gray-100 dark:border-gray-800 dark:divide-gray-900 mt-16">
-            {props.data.map((rowData) => (
-            <TableRow key={rowData.ID} row={rowData} />
-            ))}
-        </tbody>
-
-    </table>
-
-    
-  </div>
-  <tfoot>
-      <tr>
-        <td class="px-4 py-5 sm:px-6">
-          <div class="flex">
-            <Link href={{ pathname: '/AddCharacter', query: {"CampaignID": props.data[0].CampaignID} }}>
-              <button type="button" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
-                Add Character
-              </button>
-            </Link>
-          </div>
-        </td>
-      </tr>
-    </tfoot>
-</div>
-
-    )
+        <div className="border border-gray-200 dark:border-gray-900 bg-gray-200 dark:bg-gray-900 shadow-md mt-5 p-4">
+            <div className="flex justify-between mb-4">
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full p-2 mr-4 rounded-md border border-gray-300 dark:border-gray-700"
+                />
+                <Link href={{ pathname: '/AddCharacter', query: { "CampaignID": props.data[0].CampaignID } }}>
+                    <button type="button" className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
+                        Add Character
+                    </button>
+                </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {filteredData.map((rowData) => (
+                    <ListRow key={rowData.ID} row={rowData} />
+                ))}
+            </div>
+        </div>
+    );
 }
