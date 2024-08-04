@@ -15,7 +15,7 @@ export default function Navbar(props) {
     }, []);
 
     return (
-        <div className="pb-4 pt-2">
+        <div className="pt-2">
             <div className="min-h-full">
                 <nav className="bg-white dark:bg-gray-700">
                     <div className="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
