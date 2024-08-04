@@ -2,7 +2,7 @@ import Link from 'next/link';
 import ListRow from '@/components/table/listRow';
 import { useState } from 'react';
 
-export default function Table({ data }) {
+export default function Table({ data, showAlert}) {
     const [searchQuery, setSearchQuery] = useState('');
 
     const filteredData = data.filter(row => 
@@ -16,7 +16,7 @@ export default function Table({ data }) {
     );
 
     return (
-        <div className="border rounded-xl border-gray-200 dark:border-gray-900 bg-gray-200 dark:bg-gray-900 shadow-md mt-5 p-4">
+        <div className="border rounded-xl  dark:border-0 dark:bg-gray-800 shadow mt-5 p-4">
             <div className="flex justify-between mb-4">
                 <input
                     type="text"
@@ -33,7 +33,7 @@ export default function Table({ data }) {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {filteredData.map((rowData) => (
-                    <ListRow key={rowData.ID} row={rowData}/>
+                    <ListRow key={rowData.ID} row={rowData} showAlert={showAlert}/>
                 ))}
             </div>
         </div>

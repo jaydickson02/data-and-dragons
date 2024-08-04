@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { FaSpinner } from 'react-icons/fa';
+import DOMPurify from 'dompurify';
 
-const UpdateCharacter = ({ row, onClose, onUpdate }) => {
+const UpdateCharacter = ({ row, onClose, onUpdate, showAlert }) => {
     const [formData, setFormData] = useState({
         Name: row.Name,
         Class: row.Class,
@@ -22,8 +23,25 @@ const UpdateCharacter = ({ row, onClose, onUpdate }) => {
     });
     const [isLoading, setIsLoading] = useState(false);
 
+    // Configure DOMPurify to allow certain tags and attributes
+    const purifyConfig = {
+        ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'ol', 'li', 'blockquote', 'code'],
+        ALLOWED_ATTR: ['href', 'title', 'target']
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
+
+        //Check for background and sanitize it
+        if (name === 'Background') {
+            const sanitizedBackground = DOMPurify.sanitize(value.replace(/\n/g, '<br />'), purifyConfig);
+            setFormData({
+                ...formData,
+                [name]: sanitizedBackground,
+            });
+            return;
+        }
+
         setFormData({
             ...formData,
             [name]: value,
@@ -35,8 +53,6 @@ const UpdateCharacter = ({ row, onClose, onUpdate }) => {
         console.log('Updating character: ', formData);
         console.log('Row data: ', row);
         if (!formData.Name || !formData.ID || !row.CampaignID) {
-            alert('Missing required fields.');
-
             //Which fields are missing?
             if (!formData.Name) console.log('Name is missing');
             if (!formData.ID) console.log('ID is missing');
@@ -56,7 +72,7 @@ const UpdateCharacter = ({ row, onClose, onUpdate }) => {
         const response = await fetch(endpoint, options);
         const result = await response.json();
         if (parseInt(result.affectedRows) >= 1) {
-            alert('Character Updated.');
+            showAlert("gray", "Character Updated", "Success");
             onUpdate({
                 ...formData,
                 Name: formData.Name,
@@ -76,7 +92,7 @@ const UpdateCharacter = ({ row, onClose, onUpdate }) => {
             });
             onClose();
         } else {
-            alert('There was an error updating the character.');
+            showAlert("red", "An Error Occured Updating the Character", "Error");
         }
         setIsLoading(false);
     };

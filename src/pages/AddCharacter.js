@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Layout from '../components/layout';
 import Alert from '../components/elements/alert';
 import Navigation from '@/components/Navigation/navigation';
+import DOMPurify from 'dompurify';
 
 import 'font-awesome/css/font-awesome.min.css';
 import { FaSpinner } from 'react-icons/fa';
@@ -43,22 +44,31 @@ export default function AddCharacter() {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
 
-    // Get data from the form.
-    const data = {
-      name: event.target.name.value,
-      class: event.target.class.value,
-      background: event.target.background.value,
-      campaignID: CampaignID,
-      characterType: event.target.characterType.value,
-      image: event.target.image.value,
-      playerName: event.target.playerName.value,
-      affiliation: event.target.affiliation.value,
-      location: event.target.location.value,
-      alignment: event.target.alignment.value,
-      level: event.target.level.value,
-      race: event.target.race.value,
-      status: event.target.status.value,
+    // Configure DOMPurify to allow certain tags and attributes
+    const purifyConfig = {
+        ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'ol', 'li', 'blockquote', 'code'],
+        ALLOWED_ATTR: ['href', 'title', 'target']
     };
+
+    // Get data from the form and sanitize the background content.
+    const sanitizedBackground = DOMPurify.sanitize(event.target.background.value.replace(/\n/g, '<br />'), purifyConfig);
+
+    const data = {
+        name: event.target.name.value,
+        class: event.target.class.value,
+        background: sanitizedBackground,
+        campaignID: CampaignID,
+        characterType: event.target.characterType.value,
+        image: event.target.image.value,
+        playerName: event.target.playerName.value,
+        affiliation: event.target.affiliation.value,
+        location: event.target.location.value,
+        alignment: event.target.alignment.value,
+        level: event.target.level.value,
+        race: event.target.race.value,
+        status: event.target.status.value,
+    };
+
 
     // Check that required fields are not empty.
     if (!data.name || !data.campaignID) {
