@@ -3,6 +3,7 @@ import ListRow from '@/components/table/listRow';
 import { useState } from 'react';
 
 export default function Table({ data, showAlert}) {
+
     const [searchQuery, setSearchQuery] = useState('');
 
     const filteredData = data.filter(row => 
