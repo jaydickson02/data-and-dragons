@@ -1,10 +1,10 @@
 import executeQuery from '../lib/db';
 import Layout from "@/components/layout";
-import CampaignHeader from "@/components/campaign/campaignHeader";
-import CampaignOverview from "@/components/campaign/campaignOverview";
-import CampaignCharacters from "@/components/campaign/campaignCharacters";
-import CampaignNotes from "@/components/campaign/campaignNotes";
-import Alert from "@/components/elements/alert";
+import CampaignHeader from "@components/campaign/campaignHeader";
+import CampaignOverview from "@components/campaign/campaignOverview";
+import CampaignCharacters from "@components/campaign/campaignCharacters";
+import CampaignNotes from "@components/campaign/campaignNotes";
+import Alert from "@components/elements/alert";
 import Error400 from "@components/Errors/400";
 import Loading from "@components/loading";
 import { useState, useEffect } from 'react';
