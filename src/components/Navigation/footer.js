@@ -7,8 +7,8 @@ export default function Footer() {
     return (
 
         //Pin the footer to the bottom of the page
-        <footer class="w-full p-4 ">
-                <p class="text-center text-base text-gray-800 dark:text-gray-100">
+        <footer className="w-full p-4 ">
+                <p className="text-center text-base text-gray-800 dark:text-gray-100">
                     &copy; 2024. Built by Jay Dickson.
                 </p>
         </footer>
