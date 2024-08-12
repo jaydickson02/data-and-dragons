@@ -1,17 +1,85 @@
-import Table from "@/components/table/table";
+import { useState, useEffect } from 'react';
+import Table from '@/components/table/table';
+import { fetchCharacters } from '@/lib/DBUtils/charDBUtils';
+import SkeletonLoader from '@components/elements/skeletonLoader';
 
-const CampaignCharacters = ({ characters, openAlert }) => (
-    <>
-        <div className="px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
-            <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
-                Characters
-            </h3>
-            <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-100">
-                All characters in the campaign.
-            </p>
+export default function CampaignCharacters({ campaignID, openAlert }) {
+  const [characters, setCharacters] = useState([]);
+  const [charactersAreLoading, setCharactersAreLoading] = useState(true);
+  const [charactersError, setCharactersError] = useState(null);
+
+  // Fetch characters based on campaignID
+  useEffect(() => {
+    fetchCharacters(campaignID, setCharacters, setCharactersAreLoading, setCharactersError, openAlert);
+  }, [campaignID, openAlert]);
+
+  // Handle loading state
+  if (charactersAreLoading) {
+    return (
+    <div>
+        <div className="flex justify-between items-center px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
+        <SkeletonLoader width="w-full" height="h-16" />
+      </div>
+    <div className="border rounded-xl  dark:border-0 dark:bg-gray-800 shadow mt-5 p-4">
+        <div className="flex justify-between mb-4">
+        <SkeletonLoader width="w-full" height="h-16 mb-4" />
         </div>
-        <Table data={characters.data} showAlert={openAlert} />
-    </>
-);
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <SkeletonLoader width="w-full" height="h-32 mb-4" />
+            <SkeletonLoader width="w-full" height="h-32 mb-4" />
+        </div>
+    </div>
+    </div>
+    );
+  }
 
-export default CampaignCharacters;
+  // Handle error state
+  if (charactersError) {
+    return (
+      <div className="px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
+        <h3 className="text-lg leading-6 font-medium text-red-600 dark:text-red-400">
+          Characters failed to load
+        </h3>
+        <p className="mt-1 max-w-2xl text-sm text-red-500 dark:text-red-400">
+          {charactersError}
+        </p>
+      </div>
+    );
+  }
+
+  
+if (characters.data.length === 0) {
+    characters.data = [
+        {
+            "Name": "No Characters",
+            "Image": "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
+            "Player": false,
+            "PlayerName": "N/A",
+            "Class": "N/A",
+            "ID": 0,
+            "CampaignID": campaignID,
+            "Background": "N/A",
+            "Alignment": "N/A",
+            "Affiliation": "N/A",
+            "Level": "N/A",
+            "Status": "N/A",
+            "Location": "N/A",
+            "Race": "N/A"
+        }
+    ];
+    }
+
+  return (
+    <>
+      <div className="px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
+        <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+          Characters
+        </h3>
+        <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-100">
+          All characters in the campaign.
+        </p>
+      </div>
+      <Table data={characters.data} showAlert={openAlert} />
+    </>
+  );
+}
