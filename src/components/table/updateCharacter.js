@@ -50,10 +50,8 @@ const UpdateCharacter = ({ row, onClose, onUpdate, showAlert }) => {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        console.log('Updating character: ', formData);
-        console.log('Row data: ', row);
+        
         if (!formData.Name || !formData.ID || !row.CampaignID) {
-            //Which fields are missing?
             if (!formData.Name) console.log('Name is missing');
             if (!formData.ID) console.log('ID is missing');
             if (!row.CampaignID) console.log('CampaignID is missing');
