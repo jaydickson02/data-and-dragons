@@ -18,6 +18,7 @@ function debounce(func, delay) {
 }
 
 export default function CampaignNotes({ campaignID, notes, isLoading, loadingError, setNotes, openAlert}) {
+  // Handle State
   const [selectedNote, setSelectedNote] = useState(null);
   const [noteContent, setNoteContent] = useState('');
   const [isPreview, setIsPreview] = useState(true);
@@ -30,26 +31,36 @@ export default function CampaignNotes({ campaignID, notes, isLoading, loadingErr
     []
   );
 
-  //Set the selected note and note content when notes are first loaded
+  // Set the selected note and note content when notes are loaded
   useEffect(() => {
     if (notes.length > 0) {
       setSelectedNote(notes[0]);
       setNoteContent(notes[0].content);
     }
-  }, []);
+  }, [isLoading]);
+
+  // Add a new note if there are no notes
+  useEffect(() => {
+    if (notes.length === 0) {
+      addNewNoteToDatabase(campaignID, setNotes, setSelectedNote, setNoteContent);
+    }
+  }, [notes, isLoading]);
     
 
+  // Update the note in the database when the note content changes
   useEffect(() => {
     if (selectedNote) {
       debouncedUpdateNote(selectedNote.id, noteContent);
     }
   }, [noteContent, selectedNote, debouncedUpdateNote]);
 
+  // Handle selecting a note
   const handleNoteSelect = (note) => {
     setSelectedNote(note);
     setNoteContent(note.content);
   };
 
+  // Handle changing the note content
   const handleContentChange = (e) => {
     const updatedContent = e.target.value;
     setNoteContent(updatedContent);
@@ -60,26 +71,34 @@ export default function CampaignNotes({ campaignID, notes, isLoading, loadingErr
     setNotes(updatedNotes);
   };
 
+  // Handle deleting a note
   const handleDeleteNote = () => {
     if (selectedNote) {
+      const noteIndex = notes.findIndex((note) => note.id === selectedNote.id);
+      
       deleteNote(selectedNote.id, openAlert);
+      
       const remainingNotes = notes.filter((note) => note.id !== selectedNote.id);
       setNotes(remainingNotes);
-
+  
       if (remainingNotes.length > 0) {
-        setSelectedNote(remainingNotes[remainingNotes.length - 1]);
-        setNoteContent(remainingNotes[remainingNotes.length - 1].content);
+        // Determine the new selected note: the note before, or the note after if the before doesn't exist
+        const newSelectedNoteIndex = noteIndex > 0 ? noteIndex - 1 : 0;
+        setSelectedNote(remainingNotes[newSelectedNoteIndex]);
+        setNoteContent(remainingNotes[newSelectedNoteIndex].content);
       } else {
         setSelectedNote(null);
-        setNoteContent('');
+        setNoteContent('# Select or create a note to begin editing');
       }
     }
   };
 
+  // Handle toggling the preview mode
   const togglePreview = () => {
     setIsPreview(!isPreview);
   };
 
+  // Handle loading state
   if (isLoading) {
     return (
       <div>
@@ -102,6 +121,7 @@ export default function CampaignNotes({ campaignID, notes, isLoading, loadingErr
     );
   }
 
+  // Handle error state
   if (loadingError) {
     return (
       <div className="px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
@@ -115,7 +135,7 @@ export default function CampaignNotes({ campaignID, notes, isLoading, loadingErr
     );
   }
 
-  
+  // Render notes
   return (
     <>
       <div className="flex justify-between items-center px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">

@@ -108,7 +108,7 @@ export const fetchNotes = async (campaignID, setNotes, setNotesIsLoading, setNot
         content: note.Content,
         session: note.Session
       }));
-  
+
       setNotes(mappedNotes);
     } catch (error) {
       setNotesError(error.message);
