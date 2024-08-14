@@ -26,7 +26,7 @@ const NotesList = ({ notes, selectedNote, handleNoteSelect, addNewNoteToDatabase
   };
 
   return (
-    <div className="w-1/3 px-4 py-5 sm:px-6 shadow rounded-lg bg-gray-100 dark:bg-gray-900 overflow-y-auto">
+    <div className="w-1/3 px-4 py-4 sm:px-6 shadow rounded-lg bg-gray-300 dark:bg-gray-900 overflow-y-auto h-full">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold dark:text-gray-100">Notes</h2>
         <button
@@ -36,7 +36,7 @@ const NotesList = ({ notes, selectedNote, handleNoteSelect, addNewNoteToDatabase
           <FaPlus />
         </button>
       </div>
-      <ul>
+      <ul className="space-y-2">
         {notes.map((note) => {
           const { title, originalLength } = extractTitle(note.content);
           const descriptionStartIndex = originalLength + 1;
@@ -48,10 +48,10 @@ const NotesList = ({ notes, selectedNote, handleNoteSelect, addNewNoteToDatabase
           }
 
           return (
-            <li key={note.id} className="mb-2">
+            <li key={note.id}>
               <button
-                className={`block w-full text-left p-2 rounded-lg dark:text-gray-100 dark:hover:bg-gray-700 hover:bg-gray-200 ${
-                  note.id === selectedNote?.id ? 'bg-gray-300 dark:bg-gray-600 font-semibold' : ''
+                className={`block w-full text-left p-2 rounded-lg dark:text-gray-100 dark:hover:bg-gray-700 hover:bg-gray-100 ${
+                  note.id === selectedNote?.id ? 'bg-gray-100 dark:bg-gray-600 font-semibold' : ''
                 }`}
                 onClick={() => handleNoteSelect(note)}
                 style={{ height: '4.5rem' }}
@@ -63,7 +63,7 @@ const NotesList = ({ notes, selectedNote, handleNoteSelect, addNewNoteToDatabase
                   {description.length > 100 ? description.slice(0, 100) + '...' : description}
                 </span>
               </button>
-              <hr className="border-gray-300 dark:border-gray-700 mt-2" />
+              <hr className="border-gray-500 dark:border-gray-700 mt-2" />
             </li>
           );
         })}
