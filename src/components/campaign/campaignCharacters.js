@@ -1,11 +1,8 @@
-import { useState, useEffect } from 'react';
 import Table from '@/components/table/table';
-import { fetchCharacters } from '@/lib/DBUtils/characterDBUtils';
 import SkeletonLoader from '@components/elements/skeletonLoader';
 
 export default function CampaignCharacters({ campaignID, characters, isLoading, loadingError, setCharacters, openAlert }) {
 
-  // Handle loading state
   if (isLoading) {
     return (
     <div>
@@ -39,28 +36,6 @@ export default function CampaignCharacters({ campaignID, characters, isLoading, 
     );
   }
 
-  
-if (characters.data.length === 0) {
-    characters.data = [
-        {
-            "Name": "No Characters",
-            "Image": "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
-            "Player": false,
-            "PlayerName": "N/A",
-            "Class": "N/A",
-            "ID": 0,
-            "CampaignID": campaignID,
-            "Background": "N/A",
-            "Alignment": "N/A",
-            "Affiliation": "N/A",
-            "Level": "N/A",
-            "Status": "N/A",
-            "Location": "N/A",
-            "Race": "N/A"
-        }
-    ];
-    }
-
   return (
     <>
       <div className="px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
@@ -71,7 +46,7 @@ if (characters.data.length === 0) {
           All characters in the campaign.
         </p>
       </div>
-      <Table data={characters.data} showAlert={openAlert} />
+      <Table data={characters.data} campaignID={campaignID} showAlert={openAlert} />
     </>
   );
 }
