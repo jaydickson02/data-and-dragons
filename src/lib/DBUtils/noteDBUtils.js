@@ -95,7 +95,7 @@ export const deleteNote = async (ID, openAlert) => {
 };
 
 // Function to fetch notes based on campaignID
-export const fetchNotes = async (campaignID, setNotes, setSelectedNote, setNoteContent, setNotesIsLoading, setNotesError, openAlert) => {
+export const fetchNotes = async (campaignID, setNotes, setNotesIsLoading, setNotesError, openAlert) => {
     setNotesIsLoading(true);
     try {
       const notesRes = await fetch(`/api/get/notes/${campaignID}`);
@@ -110,8 +110,6 @@ export const fetchNotes = async (campaignID, setNotes, setSelectedNote, setNoteC
       }));
   
       setNotes(mappedNotes);
-      setSelectedNote(mappedNotes[0]); // Set the first note as the selected note
-      setNoteContent(mappedNotes[0]?.content || ''); // Set the content of the first note
     } catch (error) {
       setNotesError(error.message);
       openAlert && openAlert('Error loading notes', 'error'); // Trigger the alert if openAlert is provided

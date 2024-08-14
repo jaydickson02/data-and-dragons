@@ -1,20 +1,12 @@
 import { useState, useEffect } from 'react';
 import Table from '@/components/table/table';
-import { fetchCharacters } from '@/lib/DBUtils/charDBUtils';
+import { fetchCharacters } from '@/lib/DBUtils/characterDBUtils';
 import SkeletonLoader from '@components/elements/skeletonLoader';
 
-export default function CampaignCharacters({ campaignID, openAlert }) {
-  const [characters, setCharacters] = useState([]);
-  const [charactersAreLoading, setCharactersAreLoading] = useState(true);
-  const [charactersError, setCharactersError] = useState(null);
-
-  // Fetch characters based on campaignID
-  useEffect(() => {
-    fetchCharacters(campaignID, setCharacters, setCharactersAreLoading, setCharactersError, openAlert);
-  }, [campaignID, openAlert]);
+export default function CampaignCharacters({ campaignID, characters, isLoading, loadingError, setCharacters, openAlert }) {
 
   // Handle loading state
-  if (charactersAreLoading) {
+  if (isLoading) {
     return (
     <div>
         <div className="flex justify-between items-center px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
@@ -34,14 +26,14 @@ export default function CampaignCharacters({ campaignID, openAlert }) {
   }
 
   // Handle error state
-  if (charactersError) {
+  if (loadingError) {
     return (
       <div className="px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
         <h3 className="text-lg leading-6 font-medium text-red-600 dark:text-red-400">
           Characters failed to load
         </h3>
         <p className="mt-1 max-w-2xl text-sm text-red-500 dark:text-red-400">
-          {charactersError}
+          {loadingError}
         </p>
       </div>
     );
