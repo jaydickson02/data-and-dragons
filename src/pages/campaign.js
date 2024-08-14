@@ -45,7 +45,7 @@ export default function Campaign(props) {
     }, []);
 
     return (
-        <Layout>
+        <Layout hideFooter={true}>
             <div className="px-4 py-5 sm:px-6">
                 {showNotice && (
                     <Alert
