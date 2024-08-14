@@ -41,7 +41,7 @@ export default function CampaignNotes({ campaignID, notes, isLoading, loadingErr
 
   // Add a new note if there are no notes
   useEffect(() => {
-    if (notes.length === 0) {
+    if (isLoading == false && notes.length === 0) {
       addNewNoteToDatabase(campaignID, setNotes, setSelectedNote, setNoteContent);
     }
   }, [notes, isLoading]);
