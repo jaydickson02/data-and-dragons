@@ -88,7 +88,7 @@ export default function CampaignNotes({ campaignID, notes, isLoading, loadingErr
         setNoteContent(remainingNotes[newSelectedNoteIndex].content);
       } else {
         setSelectedNote(null);
-        setNoteContent('# Select or create a note to begin editing');
+        setNoteContent('');
       }
     }
   };
@@ -138,19 +138,10 @@ export default function CampaignNotes({ campaignID, notes, isLoading, loadingErr
   // Render notes
   return (
     <>
-      <div className="flex justify-between items-center px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
-        <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">Notes</h3>
-        <div className="flex space-x-2">
-          <button
-            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-500"
-            onClick={handleDeleteNote}
-            disabled={!selectedNote || isLoading}
-          >
-            Delete Note
-          </button>
-        </div>
-      </div>
-      <div className="flex h-screen">
+      <div className="mt-5">
+        
+      
+      <div className="flex" style={{ height: 'calc(100vh - 2rem)' }}>
         <NotesList
           notes={notes}
           selectedNote={selectedNote}
@@ -163,7 +154,10 @@ export default function CampaignNotes({ campaignID, notes, isLoading, loadingErr
           isPreview={isPreview}
           handleContentChange={handleContentChange}
           togglePreview={togglePreview}
+          handleDeleteNote={handleDeleteNote}
+          selectedNote={selectedNote}
         />
+      </div>
       </div>
     </>
   );
