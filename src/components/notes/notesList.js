@@ -38,7 +38,15 @@ const NotesList = ({ notes, selectedNote, handleNoteSelect, addNewNoteToDatabase
       </div>
       <ul className="space-y-2">
         {notes.map((note) => {
-          const { title, originalLength } = extractTitle(note.content);
+          let title, originalLength;
+          if(note.character) {
+            title = note.Name;
+            originalLength = -1;
+          } else {
+            const output = extractTitle(note.content);
+            title = output.title;
+            originalLength = output.originalLength;
+          }
           const descriptionStartIndex = originalLength + 1;
           let description = note.content.slice(descriptionStartIndex).trim();
           description = stripMarkdown(description);

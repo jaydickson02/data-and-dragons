@@ -70,9 +70,11 @@ export default function Campaign(props) {
                     <CampaignNotes 
                     campaignID={props.campaign.ID} 
                     notes={notes} 
+                    characters={characters}
                     isLoading={notesIsLoading} 
                     loadingError={notesError} 
                     setNotes={setNotes} 
+                    setCharacters={setCharacters}
                     openAlert={openAlert} />
                 )}
             </div>

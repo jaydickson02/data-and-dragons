@@ -46,7 +46,7 @@ export default function CampaignCharacters({ campaignID, characters, isLoading, 
           All characters in the campaign.
         </p>
       </div>
-      <Table data={characters.data} campaignID={campaignID} showAlert={openAlert} />
+      <Table characters={characters} setCharacters={setCharacters} campaignID={campaignID} showAlert={openAlert} />
     </>
   );
 }

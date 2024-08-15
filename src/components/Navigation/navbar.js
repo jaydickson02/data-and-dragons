@@ -21,19 +21,23 @@ export default function Navbar(props) {
                     <div className="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
                         <div className="flex h-12 items-center justify-between border-b border-gray-300 dark:border-gray-300 pb-2">
                             <div className="flex items-center">
+                            <Link href="/" passHref>
                                 <Image 
                                     src={isDarkMode ? "/IconWhite.png" : "/Icon.png"} 
                                     alt="Logo" 
                                     width={30} 
                                     height={30} 
                                 />
+                            </Link>
+                            <Link href="/" passHref>
                                 <div className="hidden md:block">
                                     <div className="flex items-baseline space-x-4 ml-0">
-                                        <Link href="/" passHref>
+                                        
                                             <span className="text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md px-3 py-2 text-sm font-medium" aria-current={props.activePage}>Home</span>
-                                        </Link>
+                                        
                                     </div>
                                 </div>
+                                </Link>
                             </div>
                             {/* <div className="-mr-2 flex md:hidden">
                                 <button type="button" className="inline-flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-800 p-2 text-gray-900 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-900" aria-controls="mobile-menu" aria-expanded="false" onClick={() => setShowMenu(!showMenu)}>

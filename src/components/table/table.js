@@ -3,11 +3,11 @@ import ListRow from '@/components/table/listRow';
 import { useState } from 'react';
 import { PostToDB } from '@/lib/DBUtils/PostCalls';
 
-export default function Table({ data, showAlert, campaignID}) {
+export default function Table({ characters, showAlert, campaignID, setCharacters}) {
 
     const [searchQuery, setSearchQuery] = useState('');
 
-    const filteredData = data.filter(row => 
+    const filteredData = characters.data.filter(row => 
         (row.Name?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
         (row.Class?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
         (row.Race?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
@@ -17,6 +17,32 @@ export default function Table({ data, showAlert, campaignID}) {
         (row.Alignment?.toLowerCase() || '').includes(searchQuery.toLowerCase())
     );
 
+    const updateCharacter = (character) => {
+        let updatedCharacters = {
+            data: characters.data.map(existingCharacter => 
+                existingCharacter.ID === character.ID 
+                    ? {
+                        ...existingCharacter,
+                        Name: character.Name,
+                        Class: character.Class,
+                        Background: character.Background,
+                        CampaignID: character.CampaignID,
+                        Player: character.characterType === "Player" ? 1 : 0,
+                        Image: character.Image,
+                        PlayerName: character.PlayerName,
+                        Affiliation: character.Affiliation,
+                        Location: character.Location,
+                        Alignment: character.Alignment,
+                        Level: character.Level,
+                        Race: character.Race,
+                        Status: character.Status,
+                    } 
+                    : existingCharacter
+            )
+        };
+        setCharacters(updatedCharacters);
+    };
+
     const addNewCharacter = async () => {
     
         const data = {
@@ -24,7 +50,7 @@ export default function Table({ data, showAlert, campaignID}) {
             class: "Wizard",
             background: "What is my story?",
             campaignID: campaignID,
-            characterType: 0,
+            characterType: "NPC",
             image: "https://www.gravatar.com/avatar/",
             playerName: "Matt Mercer",
             affiliation: "The Mighty Nein",
@@ -35,22 +61,35 @@ export default function Table({ data, showAlert, campaignID}) {
             status: "Alive",
         };
     
-        // setIsLoading(true);
-    
         // Send the data to the API route.
         PostToDB("/api/add/character", data)
         .then((result) => {
             // If successful, show an alert.
             showAlert('gray', 'Character added successfully.', 'Success')
+            
+            // Update the characters state.
+            let updatedCharacters = {
+                data:[...characters.data, { 
+                    ID: result.data.insertId,
+                    Name: data.name,
+                    Class: data.class,
+                    Background: data.background,
+                    CampaignID: data.campaignID,
+                    Player: data.characterType === "Player" ? 1 : 0,
+                    Image: data.image,
+                    PlayerName: data.playerName,
+                    Affiliation: data.affiliation,
+                    Location: data.location,
+                    Alignment: data.alignment,
+                    Level: data.level,
+                    Race: data.race,
+                    Status: data.status,
+                }]};
+            setCharacters(updatedCharacters);
     
-            // Set loading to false.
-            // setIsLoading(false);
           })
           .catch((error) => {
             console.error(error);
-    
-            // Set loading to false.
-            // setIsLoading(false);
     
             // If there was an error, show an alert.
             showAlert('red', 'There was an error adding the character.', 'Error')
@@ -58,7 +97,7 @@ export default function Table({ data, showAlert, campaignID}) {
     
       };
 
-    if(data.length === 0) {
+    if(characters.data.length === 0) {
         return (
             <div className="border rounded-xl  dark:border-0 dark:bg-gray-800 shadow mt-5 p-4">
                 <div className="flex justify-between mb-4">
@@ -98,7 +137,7 @@ export default function Table({ data, showAlert, campaignID}) {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {filteredData.map((rowData) => (
-                    <ListRow key={rowData.ID} row={rowData} showAlert={showAlert}/>
+                    <ListRow key={rowData.ID} characterData={rowData} updateCharacter={updateCharacter} showAlert={showAlert}/>
                 ))}
             </div>
         </div>

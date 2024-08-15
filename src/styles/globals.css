@@ -70,6 +70,26 @@
   color: white;
 }
 
+/* SaveButton.css */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-4px);
+  }
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --main-colour-rgb: 255, 255, 255;

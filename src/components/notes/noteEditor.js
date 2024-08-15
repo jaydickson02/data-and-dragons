@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { FaEye, FaPen, FaFileAlt, FaExpand } from 'react-icons/fa';
 import DoubleConfirmButton from '@components/notes/doubleConfirmButton';
+import ListRow from '@components/table/listRow';
 
-const NoteEditor = ({ noteContent, isPreview, handleContentChange, togglePreview, handleDeleteNote, handleMakeCharacterSheet, selectedNote }) => {
+const NoteEditor = ({ noteContent, isPreview, handleContentChange, togglePreview, handleDeleteNote, handleMakeCharacterSheet, selectedNote, updateCharacterNote, showAlert}) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const textareaRef = useRef(null);
 
   useEffect(() => {
     setIsFullscreen(false);
@@ -14,8 +16,17 @@ const NoteEditor = ({ noteContent, isPreview, handleContentChange, togglePreview
     setIsFullscreen(!isFullscreen);
   };
 
+  useEffect(() => {
+    if (textareaRef.current) {
+      // // Reset textarea height first
+      // textareaRef.current.style.height = 'auto';
+      // Then set it to the scrollHeight to match the content
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 50}px`;
+    }
+  }, [noteContent, isPreview, selectedNote]);
+
   return (
-    <div className="w-full pb-4 md:w-2/3 md:pl-2 md:pb-0 h-full flex flex-col">
+    <div className="w-full pb-4 md:pb-0 md:w-2/3 md:pl-2 h-full flex flex-col">
       {/* Options Bar */}
       <div className="flex justify-between items-center px-6 py-4 bg-gray-100 dark:bg-gray-800 rounded-t-xl">
         <button
@@ -45,19 +56,22 @@ const NoteEditor = ({ noteContent, isPreview, handleContentChange, togglePreview
       </div>
 
       {/* Editor/Preview Area */}
-      <div className="flex-grow overflow-y-auto">
+      <div className="flex-grow px-8 bg-gray-100 dark:bg-gray-800 overflow-y-auto rounded-b-xl">
+        {selectedNote?.character && (
+          <ListRow characterData={selectedNote} isNoteView={true} showAlert={showAlert} notePreview={isPreview} updateCharacterNote={updateCharacterNote} />
+        )}
         {isPreview ? (
-          <div className="h-full px-8 bg-gray-100 rounded-b-xl dark:bg-gray-800 overflow-y-auto">
+          <div className="w-full">
             <ReactMarkdown className="prose dark:prose-invert">{noteContent}</ReactMarkdown>
           </div>
         ) : (
-          <div className="h-full relative">
-            <textarea
-              className="w-full h-full px-8 rounded-b-xl bg-gray-100 dark:bg-gray-800 dark:text-gray-100 overflow-y-auto resize-none focus:outline-none border-none focus:ring-0"
-              value={noteContent}
-              onChange={handleContentChange}
-            />
-          </div>
+          <textarea
+            ref={textareaRef}
+            className="w-full noscroll bg-gray-100 dark:bg-gray-800 dark:text-gray-100 resize-none focus:outline-none border-none focus:ring-0"
+            value={noteContent}
+            onChange={handleContentChange}
+            rows={10} // Start with a single row
+          />
         )}
       </div>
     </div>
