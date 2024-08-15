@@ -180,6 +180,10 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
       if (selectedNote.character) {
         // Delete character note
         deleteCharacter(selectedNote.id, openAlert);
+
+        // Remove the character from the characters state
+        const remainingCharacters = characters.data.filter((character) => character.ID !== selectedNote.id);
+        setCharacters({ data: remainingCharacters });
       } else {
         // Delete regular note
         deleteNote(selectedNote.id, openAlert);
