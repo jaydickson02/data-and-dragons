@@ -15,6 +15,7 @@ export default function Campaign(props) {
     const [showNotice, setShowNotice] = useState(false);
     const [noticeTitle, setNoticeTitle] = useState('');
     const [activeTab, setActiveTab] = useState('campaign');
+    const [anyLoading, setAnyLoading] = useState(true);
 
     // Notes state
     const [notesIsLoading, setIsLoading] = useState(true); // Loading state for fetching notes
@@ -44,6 +45,15 @@ export default function Campaign(props) {
         fetchCharacters(props.campaign.ID, setCharacters, setCharactersAreLoading, setCharactersError, openAlert);
     }, []);
 
+    useEffect(() => {
+        //If characters or notes are loading set the notes is loading to true
+        if (charactersAreLoading || notesIsLoading) {
+            setAnyLoading(true);
+        } else {
+            setAnyLoading(false);
+        }
+    }, [charactersAreLoading, notesIsLoading]);
+
     return (
         <Layout hideFooter={true}>
             <div className="px-4 py-5 sm:px-6">
@@ -71,7 +81,7 @@ export default function Campaign(props) {
                     campaignID={props.campaign.ID} 
                     notes={notes} 
                     characters={characters}
-                    isLoading={notesIsLoading} 
+                    isLoading={anyLoading}
                     loadingError={notesError} 
                     setNotes={setNotes} 
                     setCharacters={setCharacters}
