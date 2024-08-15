@@ -15,7 +15,7 @@ const NoteEditor = ({ noteContent, isPreview, handleContentChange, togglePreview
   };
 
   return (
-    <div className="w-2/3 pl-2 h-full flex flex-col">
+    <div className="w-full pb-4 md:w-2/3 md:pl-2 md:pb-0 h-full flex flex-col">
       {/* Options Bar */}
       <div className="flex justify-between items-center px-6 py-4 bg-gray-100 dark:bg-gray-800 rounded-t-xl">
         <button

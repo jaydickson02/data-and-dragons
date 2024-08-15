@@ -35,7 +35,7 @@ export default function Navbar(props) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="-mr-2 flex md:hidden">
+                            {/* <div className="-mr-2 flex md:hidden">
                                 <button type="button" className="inline-flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-800 p-2 text-gray-900 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-900" aria-controls="mobile-menu" aria-expanded="false" onClick={() => setShowMenu(!showMenu)}>
                                     <span className="sr-only">Open main menu</span>
                                     <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
@@ -45,10 +45,10 @@ export default function Navbar(props) {
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
-                    {showMenu && (
+                    {/* {showMenu && (
                         <div className="md:hidden" id="mobile-menu">
                             <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                                 <Link href="/" passHref>
@@ -59,7 +59,7 @@ export default function Navbar(props) {
                                 </Link>
                             </div>
                         </div>
-                    )}
+                    )} */}
                 </nav>
             </div>
         </div>

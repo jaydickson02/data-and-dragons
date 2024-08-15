@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import NotesList from '@components/notes/notesList';
+import NotesCarousel from '@components/notes/notesCarousel';
 import NoteEditor from '@components/notes/noteEditor';
 import SkeletonLoader from '@components/elements/skeletonLoader';
 import { updateNoteInDatabase, addNewNoteToDatabase, deleteNote } from '@/lib/DBUtils/noteDBUtils';
@@ -17,11 +18,12 @@ function debounce(func, delay) {
   };
 }
 
-export default function CampaignNotes({ campaignID, notes, isLoading, loadingError, setNotes, openAlert}) {
+export default function CampaignNotes({ campaignID, notes, isLoading, loadingError, setNotes, openAlert }) {
   // Handle State
   const [selectedNote, setSelectedNote] = useState(null);
   const [noteContent, setNoteContent] = useState('');
   const [isPreview, setIsPreview] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Debounced function for updating the note in the database
   const debouncedUpdateNote = useCallback(
@@ -41,11 +43,10 @@ export default function CampaignNotes({ campaignID, notes, isLoading, loadingErr
 
   // Add a new note if there are no notes
   useEffect(() => {
-    if (isLoading == false && notes.length === 0) {
+    if (!isLoading && notes.length === 0) {
       addNewNoteToDatabase(campaignID, setNotes, setSelectedNote, setNoteContent);
     }
   }, [notes, isLoading]);
-    
 
   // Update the note in the database when the note content changes
   useEffect(() => {
@@ -53,6 +54,17 @@ export default function CampaignNotes({ campaignID, notes, isLoading, loadingErr
       debouncedUpdateNote(selectedNote.id, noteContent);
     }
   }, [noteContent, selectedNote, debouncedUpdateNote]);
+
+  // Detect screen size for responsive rendering
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint for mobile
+    };
+
+    handleResize(); // Set initial state
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Handle selecting a note
   const handleNoteSelect = (note) => {
@@ -139,25 +151,33 @@ export default function CampaignNotes({ campaignID, notes, isLoading, loadingErr
   return (
     <>
       <div className="mt-5">
-        
-      
-      <div className="flex" style={{ height: 'calc(100vh - 2rem)' }}>
-        <NotesList
-          notes={notes}
-          selectedNote={selectedNote}
-          handleNoteSelect={handleNoteSelect}
-          addNewNoteToDatabase={(campaignID) => addNewNoteToDatabase(campaignID, setNotes, setSelectedNote, setNoteContent)}
-          campaignID={campaignID}
-        />
-        <NoteEditor
-          noteContent={noteContent}
-          isPreview={isPreview}
-          handleContentChange={handleContentChange}
-          togglePreview={togglePreview}
-          handleDeleteNote={handleDeleteNote}
-          selectedNote={selectedNote}
-        />
-      </div>
+        <div className="flex flex-col md:flex-row" style={{ height: 'calc(100vh - 2rem)' }}>
+          {isMobile ? (
+            <NotesCarousel
+              notes={notes}
+              selectedNote={selectedNote}
+              handleNoteSelect={handleNoteSelect}
+              addNewNoteToDatabase={(campaignID) => addNewNoteToDatabase(campaignID, setNotes, setSelectedNote, setNoteContent)}
+              campaignID={campaignID}
+            />
+          ) : (
+            <NotesList
+              notes={notes}
+              selectedNote={selectedNote}
+              handleNoteSelect={handleNoteSelect}
+              addNewNoteToDatabase={(campaignID) => addNewNoteToDatabase(campaignID, setNotes, setSelectedNote, setNoteContent)}
+              campaignID={campaignID}
+            />
+          )}
+          <NoteEditor
+            noteContent={noteContent}
+            isPreview={isPreview}
+            handleContentChange={handleContentChange}
+            togglePreview={togglePreview}
+            handleDeleteNote={handleDeleteNote}
+            selectedNote={selectedNote}
+          />
+        </div>
       </div>
     </>
   );
