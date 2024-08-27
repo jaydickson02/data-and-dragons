@@ -67,6 +67,7 @@ const NoteEditor = ({
     setShowBorder(scrollTop > 0);
   };
 
+  if(selectedNote) {
   return (
     <div className="relative h-full flex flex-col bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">
       {/* Options Bar */}
@@ -92,8 +93,8 @@ const NoteEditor = ({
           <DoubleConfirmButton onConfirm={handleDeleteNote} noteContent={noteContent} selectedNote={selectedNote} />
         </div>
       </div>
-
-      {/* Editor Area */}
+        
+      {/* Editor */}
       <TiptapEditor
         noteContent={noteContent}
         handleContentChange={handleContentChange}
@@ -104,7 +105,13 @@ const NoteEditor = ({
         onScroll={handleScroll}
       />
     </div>
-  );
+  )} else {
+    return (
+      <div className="flex flex-col items-center justify-center h-full text-gray-800 dark:text-gray-200">
+        <h2 className="text-xl font-bold dark:text-gray-100">No note selected</h2>
+      </div>
+    );
+  }
 };
 
 export default NoteEditor;

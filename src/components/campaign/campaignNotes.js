@@ -20,16 +20,13 @@ function debounce(func, delay) {
   };
 }
 
-export default function CampaignNotes({ campaignID, notes, characters = { data: [] }, isLoading, loadingError, setNotes, setCharacters, openAlert }) {
+export default function CampaignNotes({ campaignID, notes, characters = { data: [] }, isLoading, loadingError, setNotes, setCharacters, openAlert, setTags, selectedTag }) {
   // Handle State
   const [selectedNote, setSelectedNote] = useState(null);
   const [noteContent, setNoteContent] = useState('');
   const [isPreview, setIsPreview] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [paneSizes, setPaneSizes] = useState([25, 75]);
-  
-
-  
 
   useEffect(() => {
     if(!isLoading){
@@ -56,14 +53,58 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
         }
         return acc;
       }, []);
+
+      //Set each note with a unique ID
+      uniqueNotes.forEach((note, index) => {
+        note.uniqueID = index;
+      });
+
       setNotes(uniqueNotes);
   }
   }, [characters, isLoading]);
 
+    
+  useEffect(() => {
+    findAndSetTags(notes);
+  }, [noteContent]);
+    
+  
+  const findAndSetTags = (notes) => {
+    if (notes.length > 0) {
+      // Iterate over each note and extract tags
+      const updatedNotes = notes.map(note => {
+        const tagRegex = /#\w+/g;
+        const foundTags = note.content.match(tagRegex) || [];
+  
+        // Remove the '#' from each tag and store in the note object
+        note.tags = foundTags.map(tag => tag.replace('#', ''));
+  
+        return note;
+      });
+  
+      // Flatten all tags across all notes
+      const allTags = updatedNotes.map(note => note.tags).flat();
+  
+      // Remove duplicates
+      const uniqueTags = [...new Set(allTags)];
+  
+      // Extract tag name and iconType
+      const tagData = uniqueTags.map(tag => {
+        return {
+          tag: tag,
+          iconType: 'FaTag' // Set default icon, can be changed later based on some logic
+        };
+      });
+  
+      setTags(tagData); // Assuming setTags is a useState setter function
+      setNotes(updatedNotes); // Assuming setNotes is used to update the state of notes
+    }
+  };
+
 
   const updateCharacterNote = (characterData) => {
     const updatedNotes = notes.map((note) =>
-      note.id === characterData.ID ? { ...note, ...characterData,  } : note
+      note.uniqueID === characterData.uniqueID ? { ...note, ...characterData,  } : note
     );
 
     
@@ -97,7 +138,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
   const debouncedUpdateNote = useCallback(
     debounce((noteId, content, campaignID) => {
       
-      const noteToUpdate = notes.find(note => note.id === noteId);
+      const noteToUpdate = notes.find(note => note.uniqueID === noteId);
 
       if (noteToUpdate.character) {
         // Update the Background field with the new content for character notes
@@ -107,7 +148,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
         });
       } else {
         // Update regular note
-        updateNoteInDatabase(noteId, content, campaignID);
+        updateNoteInDatabase(noteToUpdate.id, content, campaignID);
       }
     }, 1000),
     [notes]
@@ -131,7 +172,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
   // Update the note or character in the database when the note content changes
   useEffect(() => {
     if (selectedNote) {
-      debouncedUpdateNote(selectedNote.id, noteContent, campaignID);
+      debouncedUpdateNote(selectedNote.uniqueID, noteContent, campaignID);
     }
   }, [noteContent, selectedNote, debouncedUpdateNote]);
 
@@ -149,7 +190,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
   // Handle selecting a note
   const handleNoteSelect = (note) => {
     setSelectedNote(note);
-    setNoteContent(note.content);
+    setNoteContent(note ? note.content : '');
   };
 
   // Handle changing the note content
@@ -158,20 +199,27 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
     setNoteContent(updatedContent);
 
     const updatedNotes = notes.map((note) =>
-      note.id === selectedNote.id ? { ...note, content: updatedContent } : note
+      note.uniqueID === selectedNote.uniqueID ? { ...note, content: updatedContent } : note
     );
 
-    //Update the characters too
-    const updatedCharacters = {
-      data: characters.data.map(existingCharacter => 
-          existingCharacter.ID === selectedNote.id 
-              ? {
-                  ...existingCharacter,
-                  Background: updatedContent
-              } 
-              : existingCharacter
-      )
-    };
+    let updatedCharacters;
+
+    if (selectedNote.character) {
+      //Update the characters too
+      updatedCharacters = {
+        data: characters.data.map(existingCharacter => 
+            existingCharacter.ID === selectedNote.ID 
+                ? {
+                    ...existingCharacter,
+                    Background: updatedContent
+                } 
+                : existingCharacter
+        )
+      };
+    } else {
+      updatedCharacters = characters;
+    }
+
 
     setCharacters(updatedCharacters);
     setNotes(updatedNotes);
@@ -180,7 +228,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
   // Handle deleting a note or character
   const handleDeleteNote = () => {
     if (selectedNote) {
-      const noteIndex = notes.findIndex((note) => note.id === selectedNote.id);
+      const noteIndex = notes.findIndex((note) => note.uniqueID === selectedNote.uniqueID);
 
       if (selectedNote.character) {
         // Delete character note
@@ -194,7 +242,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
         deleteNote(selectedNote.id, openAlert);
       }
 
-      const remainingNotes = notes.filter((note) => note.id !== selectedNote.id);
+      const remainingNotes = notes.filter((note) => note.uniqueID !== selectedNote.uniqueID);
       setNotes(remainingNotes);
 
       if (remainingNotes.length > 0) {
@@ -302,6 +350,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
             handleNoteSelect={handleNoteSelect}
             addNewNoteToDatabase={(campaignID) => addNewNoteToDatabase(campaignID, setNotes, setSelectedNote, setNoteContent)}
             campaignID={campaignID}
+            selectedTag={selectedTag}
           />
         </div>
         <div className="h-full"> {/* Ensure the content is scrollable within the pane */}

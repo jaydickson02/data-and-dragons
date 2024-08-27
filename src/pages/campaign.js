@@ -4,6 +4,7 @@ import CampaignHeader from "@components/campaign/campaignHeader";
 import CampaignOverview from "@components/campaign/campaignOverview";
 import CampaignCharacters from "@components/campaign/campaignCharacters";
 import CampaignNotes from "@components/campaign/campaignNotes";
+import Tags from "@components/sidebar/tags";
 import Alert from "@components/elements/alert";
 import { useState, useEffect } from 'react';
 import { fetchNotes } from '@/lib/DBUtils/noteDBUtils';
@@ -30,6 +31,10 @@ export default function Campaign(props) {
     const [characters, setCharacters] = useState([]);
     const [charactersAreLoading, setCharactersAreLoading] = useState(true);
     const [charactersError, setCharactersError] = useState(null);
+
+    //Tags state
+    const [tags, setTags] = useState([]);
+    const [selectedTag, setSelectedTag] = useState(null);
 
     const openAlert = (colour, message, title) => {
         setShowNotice(true);
@@ -62,6 +67,12 @@ export default function Campaign(props) {
         setSidebarOpen(!sidebarOpen);
     };
 
+    useEffect(() => {
+        if(selectedTag) {
+            console.log(selectedTag);
+        }
+    }, [selectedTag]);
+
     return (
         <Layout hideFooter={true} hideNav={true}>
             <div className="flex h-full">
@@ -69,7 +80,8 @@ export default function Campaign(props) {
                 <div 
                     className={`fixed h-full border-r inset-y-0 left-0 z-30 w-56 transform dark:border-gray-600 bg-slate-800 dark:bg-gray-700 transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                     
-                    <CampaignHeader campaign={props.campaign} activeTab={activeTab} setActiveTab={handleTabChange} />
+                    <CampaignHeader campaign={props.campaign} activeTab={activeTab} setActiveTab={handleTabChange} setSelectedTag={setSelectedTag} />
+                    <Tags tags={tags} setSelectedTag={setSelectedTag} setActiveTab={setActiveTab} />
 
                     <button
                         onClick={toggleSidebar}
@@ -77,7 +89,6 @@ export default function Campaign(props) {
                     >
                         <FaArrowLeft />
                     </button>
-                    
                 </div>
 
                 {/* Main content area */}
@@ -115,9 +126,12 @@ export default function Campaign(props) {
                             characters={characters}
                             isLoading={anyLoading}
                             loadingError={notesError} 
+                            selectedTag={selectedTag}
                             setNotes={setNotes} 
                             setCharacters={setCharacters}
                             openAlert={openAlert} 
+                            setTags={setTags}
+                            
                         />
                     )}
                 </div>
