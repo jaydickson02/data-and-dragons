@@ -1,41 +1,41 @@
 import Navigation from "@/components/Navigation/navigation";
+import { FaUser, FaFile } from 'react-icons/fa';
 
 const CampaignHeader = ({ campaign, activeTab, setActiveTab }) => (
-    <div
-        className="relative px-4 pb-10 sm:px-6 flex flex-col items-center"
-        style={{
-            backgroundImage: `url(${campaign.CoverImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            borderRadius: '1.5rem',
-        }}
-    >
-        <div className="absolute top-0 left-0 p-6">
+    <div className="w-full h-full flex flex-col">
+        {/* Navigation */}
+        {/* <div className="p-6">
             <Navigation />
-        </div>
-        <div className="px-12 py-8 mb-10 md:mb-20 mt-24 md:mt-20 m-auto shadow rounded-2xl bg-gray-200 dark:bg-gray-900 flex justify-center">
-            <h2 className="md:text-4xl text-2xl leading-6 font-medium text-gray-900 dark:text-gray-100">
+        </div> */}
+
+        {/* Campaign Name */}
+        <div className="px-4 py-6 text-center">
+            <h2 className="md:text-xl text-xl leading-6 font-medium text-gray-100 dark:text-gray-100">
                 {campaign.Name}
             </h2>
         </div>
-        <div className="flex space-x-2 mt-0 md:mt-4">
+
+        {/* Cover Image */}
+        {/* <div
+            className="h-20 bg-cover bg-center mb-5"
+            style={{
+                backgroundImage: `url(${campaign.CoverImage})`,
+            }}
+        ></div> */}
+
+        {/* Sidebar Buttons */}
+        <div className="flex flex-col mx-2">
             <button
-                className={`px-4 py-2 focus:outline-none ${activeTab === 'campaign' ? 'bg-indigo-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100'} rounded-full`}
-                onClick={() => setActiveTab('campaign')}
-            >
-                Overview
-            </button>
-            <button
-                className={`px-4 py-2 focus:outline-none ${activeTab === 'characters' ? 'bg-indigo-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100'} rounded-full`}
+                className={`flex flex-row px-4 py-1 text-left w-full rounded-md border-gray-300 dark:border-gray-700 focus:outline-none ${activeTab === 'characters' ? 'bg-slate-600 text-gray-100 dark:text-gray-100' : ' text-gray-100 dark:text-gray-100'}`}
                 onClick={() => setActiveTab('characters')}
             >
-                Characters
+                <FaUser size={10} className="my-auto"/> <div className="ml-2">Characters</div>
             </button>
             <button
-                className={`px-4 py-2 focus:outline-none ${activeTab === 'notes' ? 'bg-indigo-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100'} rounded-full`}
+                className={`flex flex-row px-4 py-1 text-left w-full rounded-md border-gray-300 dark:border-gray-700 focus:outline-none ${activeTab === 'notes' ? 'bg-slate-600 text-gray-100 dark:text-gray-100' : '  text-gray-100 dark:text-gray-100'}`}
                 onClick={() => setActiveTab('notes')}
             >
-                Notes
+                <FaFile size={10} className="my-auto"/> <div className="ml-2">Notes</div>
             </button>
         </div>
     </div>

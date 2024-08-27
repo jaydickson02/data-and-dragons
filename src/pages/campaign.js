@@ -8,14 +8,18 @@ import Alert from "@components/elements/alert";
 import { useState, useEffect } from 'react';
 import { fetchNotes } from '@/lib/DBUtils/noteDBUtils';
 import { fetchCharacters } from '@/lib/DBUtils/characterDBUtils';
+import { FaBars, FaArrowLeft } from 'react-icons/fa'; // Import icons for sidebar toggle
 
 export default function Campaign(props) {
     const [noticeMessage, setNoticeMessage] = useState('');
     const [noticeColour, setNoticeColour] = useState('');
     const [showNotice, setShowNotice] = useState(false);
     const [noticeTitle, setNoticeTitle] = useState('');
-    const [activeTab, setActiveTab] = useState('campaign');
+    const [activeTab, setActiveTab] = useState('notes'); // Load notes by default
     const [anyLoading, setAnyLoading] = useState(true);
+
+    // Sidebar state
+    const [sidebarOpen, setSidebarOpen] = useState(true);
 
     // Notes state
     const [notesIsLoading, setIsLoading] = useState(true); // Loading state for fetching notes
@@ -39,14 +43,13 @@ export default function Campaign(props) {
         setActiveTab(tab);
     };
 
-    // Fetch notes based on campaignID
+    // Fetch notes and characters based on campaignID
     useEffect(() => {
         fetchNotes(props.campaign.ID, setNotes, setIsLoading, setNotesError, openAlert); 
         fetchCharacters(props.campaign.ID, setCharacters, setCharactersAreLoading, setCharactersError, openAlert);
     }, []);
 
     useEffect(() => {
-        //If characters or notes are loading set the notes is loading to true
         if (charactersAreLoading || notesIsLoading) {
             setAnyLoading(true);
         } else {
@@ -54,39 +57,70 @@ export default function Campaign(props) {
         }
     }, [charactersAreLoading, notesIsLoading]);
 
+    // Toggle the sidebar
+    const toggleSidebar = () => {
+        setSidebarOpen(!sidebarOpen);
+    };
+
     return (
-        <Layout hideFooter={true}>
-            <div className="px-4 py-5 sm:px-6">
-                {showNotice && (
-                    <Alert
-                        colour={noticeColour}
-                        title={noticeTitle}
-                        message={noticeMessage}
-                        show={() => setShowNotice(false)}
-                    />
-                )}
-                <CampaignHeader campaign={props.campaign} activeTab={activeTab} setActiveTab={handleTabChange}/>
-                {activeTab === 'campaign' && <CampaignOverview campaign={props.campaign} />}
-                {activeTab === 'characters' && (
-                    <CampaignCharacters 
-                    campaignID={props.campaign.ID} 
-                    characters={characters} 
-                    isLoading={charactersAreLoading} 
-                    loadingError={charactersError} 
-                    setCharacters={setCharacters} 
-                    openAlert={openAlert} />
-                )}
-                {activeTab === 'notes' && (
-                    <CampaignNotes 
-                    campaignID={props.campaign.ID} 
-                    notes={notes} 
-                    characters={characters}
-                    isLoading={anyLoading}
-                    loadingError={notesError} 
-                    setNotes={setNotes} 
-                    setCharacters={setCharacters}
-                    openAlert={openAlert} />
-                )}
+        <Layout hideFooter={true} hideNav={true}>
+            <div className="flex h-full">
+                {/* Sidebar */}
+                <div 
+                    className={`fixed h-full border-r inset-y-0 left-0 z-30 w-56 transform dark:border-gray-600 bg-slate-800 dark:bg-gray-700 transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+                    
+                    <CampaignHeader campaign={props.campaign} activeTab={activeTab} setActiveTab={handleTabChange} />
+
+                    <button
+                        onClick={toggleSidebar}
+                        className={`fixed bottom-4 right-4 text-gray-600 dark:text-gray-300 p-2 bg-gray-200 dark:bg-gray-700 rounded-full focus:outline-none`}
+                    >
+                        <FaArrowLeft />
+                    </button>
+                    
+                </div>
+
+                {/* Main content area */}
+                <div className={`flex-grow h-full dark:bg-gray-800 transition-all duration-300 ease-in-out ${sidebarOpen ? 'ml-56' : 'ml-0'}`}>
+                    <button
+                        onClick={toggleSidebar}
+                        className={`fixed bottom-4 left-4 ${sidebarOpen ? 'hidden' : ''} transform transition-transform duration-300 ease-in-out text-gray-600 dark:text-gray-300 p-2 bg-gray-200 dark:bg-gray-700 rounded-full focus:outline-none`}
+                    >
+                        <FaBars />
+                    </button>
+
+                    {showNotice && (
+                        <Alert
+                            colour={noticeColour}
+                            title={noticeTitle}
+                            message={noticeMessage}
+                            show={() => setShowNotice(false)}
+                        />
+                    )}
+
+                    {activeTab === 'characters' && (
+                        <CampaignCharacters 
+                            campaignID={props.campaign.ID} 
+                            characters={characters} 
+                            isLoading={charactersAreLoading} 
+                            loadingError={charactersError} 
+                            setCharacters={setCharacters} 
+                            openAlert={openAlert} 
+                        />
+                    )}
+                    {activeTab === 'notes' && (
+                        <CampaignNotes 
+                            campaignID={props.campaign.ID} 
+                            notes={notes} 
+                            characters={characters}
+                            isLoading={anyLoading}
+                            loadingError={notesError} 
+                            setNotes={setNotes} 
+                            setCharacters={setCharacters}
+                            openAlert={openAlert} 
+                        />
+                    )}
+                </div>
             </div>
         </Layout>
     );

@@ -1,79 +1,108 @@
-import React, { useState, useEffect, useRef } from 'react';
-import ReactMarkdown from 'react-markdown';
-import { FaEye, FaPen, FaFileAlt, FaExpand } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import TiptapEditor from '@components/notes/tiptapEditor';
 import DoubleConfirmButton from '@components/notes/doubleConfirmButton';
-import ListRow from '@components/table/listRow';
+import TurndownService from 'turndown';
 
-const NoteEditor = ({ noteContent, isPreview, handleContentChange, togglePreview, handleDeleteNote, handleMakeCharacterSheet, selectedNote, updateCharacterNote, showAlert}) => {
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const textareaRef = useRef(null);
+const NoteEditor = ({
+  noteContent,
+  handleContentChange,
+  handleDeleteNote,
+  handleMakeCharacterSheet,
+  selectedNote,
+  updateCharacterNote,
+  showAlert,
+}) => {
+  const [title, setTitle] = useState('');
+  const [showBorder, setShowBorder] = useState(false);
 
-  useEffect(() => {
-    setIsFullscreen(false);
-  }, [selectedNote, noteContent]);
+  const updateTitle = (content) => {
+    if (selectedNote?.character) {
+      setTitle(selectedNote.Name);
+    } else if (content) {
+      const tempElement = document.createElement('div');
+      tempElement.innerHTML = content;
 
-  const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen);
+      const firstTextNode = tempElement.childNodes[0];
+      let firstLine = '';
+
+      if (firstTextNode) {
+        if (firstTextNode.nodeType === Node.TEXT_NODE) {
+          firstLine = firstTextNode.textContent.trim();
+        } else if (firstTextNode.nodeType === Node.ELEMENT_NODE) {
+          firstLine = firstTextNode.textContent.split('\n')[0].trim();
+        }
+      }
+
+      let cleanTitle = firstLine.replace(/<\/?[^>]+(>|$)/g, '');
+
+      if (cleanTitle.length === 0) {
+        cleanTitle = "Untitled Note";
+      }
+
+      setTitle(cleanTitle.slice(0, 80));
+    } else {
+      setTitle('');
+    }
   };
 
   useEffect(() => {
-    if (textareaRef.current) {
-      // // Reset textarea height first
-      // textareaRef.current.style.height = 'auto';
-      // Then set it to the scrollHeight to match the content
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 50}px`;
-    }
-  }, [noteContent, isPreview, selectedNote]);
+    updateTitle(noteContent);
+  }, [selectedNote, noteContent]);
+
+  const exportToMarkdown = () => {
+    const turndownService = new TurndownService();
+    const markdownContent = turndownService.turndown(noteContent);
+
+    const element = document.createElement('a');
+    const file = new Blob([markdownContent], { type: 'text/markdown' });
+    element.href = URL.createObjectURL(file);
+    element.download = `${title || 'Untitled Note'}.md`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
+  // Function to handle scroll event from TiptapEditor
+  const handleScroll = (scrollTop) => {
+    setShowBorder(scrollTop > 0);
+  };
 
   return (
-    <div className="w-full pb-4 md:pb-0 md:w-2/3 md:pl-2 h-full flex flex-col">
+    <div className="relative h-full flex flex-col bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">
       {/* Options Bar */}
-      <div className="flex justify-between items-center px-6 py-4 bg-gray-100 dark:bg-gray-800 rounded-t-xl">
-        <button
-          onClick={togglePreview}
-          className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
-          title={isPreview ? 'Edit' : 'Preview'}
-        >
-          {isPreview ? <FaPen size={12} /> : <FaEye size={12} />}
-        </button>
-        <div className="flex space-x-2">
-          <button
-            onClick={toggleFullscreen}
-            className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
-            title="Fullscreen"
-          >
-            <FaExpand size={12} />
-          </button>
+      <div className={`flex justify-between items-center px-6 py-2 transition-all duration-300 ${showBorder ? 'border-b dark:border-gray-600' : ''}`}>
+        <h2 className={`text-xl font-bold dark:text-gray-100 transition-opacity duration-500 ${showBorder ? 'opacity-100' : 'opacity-0'}`}>
+          {title}
+        </h2>
+        <div className="ml-auto flex space-x-2">
           <button
             onClick={handleMakeCharacterSheet}
-            className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+            className="w-8 h-8 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
             title="Make Character Sheet"
           >
-            <FaFileAlt size={12} />
+            #
+          </button>
+          <button
+            onClick={exportToMarkdown}
+            className="w-8 h-8 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+            title="Export as Markdown"
+          >
+            &#8681;
           </button>
           <DoubleConfirmButton onConfirm={handleDeleteNote} noteContent={noteContent} selectedNote={selectedNote} />
         </div>
       </div>
 
-      {/* Editor/Preview Area */}
-      <div className="flex-grow px-8 bg-gray-100 dark:bg-gray-800 overflow-y-auto rounded-b-xl">
-        {selectedNote?.character && (
-          <ListRow characterData={selectedNote} isNoteView={true} showAlert={showAlert} notePreview={isPreview} updateCharacterNote={updateCharacterNote} />
-        )}
-        {isPreview ? (
-          <div className="w-full">
-            <ReactMarkdown className="prose dark:prose-invert">{noteContent}</ReactMarkdown>
-          </div>
-        ) : (
-          <textarea
-            ref={textareaRef}
-            className="w-full noscroll bg-gray-100 dark:bg-gray-800 dark:text-gray-100 resize-none focus:outline-none border-none focus:ring-0"
-            value={noteContent}
-            onChange={handleContentChange}
-            rows={10} // Start with a single row
-          />
-        )}
-      </div>
+      {/* Editor Area */}
+      <TiptapEditor
+        noteContent={noteContent}
+        handleContentChange={handleContentChange}
+        selectedNote={selectedNote}
+        updateTitle={updateTitle}
+        showAlert={showAlert}
+        updateCharacterNote={updateCharacterNote}
+        onScroll={handleScroll}
+      />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import Split from 'react-split';
 import NotesList from '@components/notes/notesList';
 import NotesCarousel from '@components/notes/notesCarousel';
 import NoteEditor from '@components/notes/noteEditor';
@@ -25,37 +26,39 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
   const [noteContent, setNoteContent] = useState('');
   const [isPreview, setIsPreview] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [paneSizes, setPaneSizes] = useState([25, 75]);
   
 
   
 
   useEffect(() => {
-    // Map characters to note-like objects
-    const characterNotes = characters.data.map(character => ({
-      id: character.ID, // Using character ID
-      content: character.Background,
-      character: true, // Flag to indicate this is a character note
-      ...character // Spread all character data to use later in NoteEditor
-    }));
+    if(!isLoading){
+      // Map characters to note-like objects
+      const characterNotes = characters.data.map(character => ({
+        id: character.ID, // Using character ID
+        content: character.Background,
+        character: true, // Flag to indicate this is a character note
+        ...character // Spread all character data to use later in NoteEditor
+      }));
 
-    // Merge notes and character notes
-    // Ensure all notes are unique based on their ID, prioritize characterNotes
-    const mergedNotes = [...notes, ...characterNotes];
-  
-    const uniqueNotes = mergedNotes.reduce((acc, current) => {
-      const existingIndex = acc.findIndex(item => item.ID === current.ID);
-      if (existingIndex === -1) {
-        // If no duplicate is found, add the note
-        acc.push(current);
-      } else {
-        // If a duplicate is found, replace it with the one from characterNotes
-        acc[existingIndex] = current;
-      }
-      return acc;
-    }, []);
-  
-    setNotes(uniqueNotes);
-  }, [characters]);
+      // Merge notes and character notes
+      // Ensure all notes are unique based on their ID, prioritize characterNotes
+      const mergedNotes = [...notes, ...characterNotes];
+    
+      const uniqueNotes = mergedNotes.reduce((acc, current) => {
+        const existingIndex = acc.findIndex(item => item.ID === current.ID);
+        if (existingIndex === -1 || !current.character) {
+          // If no duplicate is found, add the note
+          acc.push(current);
+        } else {
+          // If a duplicate is found, replace it with the one from characterNotes
+          acc[existingIndex] = current;
+        }
+        return acc;
+      }, []);
+      setNotes(uniqueNotes);
+  }
+  }, [characters, isLoading]);
 
 
   const updateCharacterNote = (characterData) => {
@@ -93,7 +96,9 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
 
   const debouncedUpdateNote = useCallback(
     debounce((noteId, content, campaignID) => {
+      
       const noteToUpdate = notes.find(note => note.id === noteId);
+
       if (noteToUpdate.character) {
         // Update the Background field with the new content for character notes
         updateCharacterInDatabase({ 
@@ -209,21 +214,50 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
     setIsPreview(!isPreview);
   };
 
+   // Function to extract title and description
+   const extractTitleAndDescription = (content) => {
+    const firstLine = content.split('\n')[0];
+    const originalLength = firstLine.length;
+    const title = firstLine.replace(/^#\s*/, '');
+    let description = content.slice(originalLength + 1).trim();
+
+    // Strip markdown from description
+    description = description
+      .replace(/(\*\*|__)(.*?)\1/g, '$2')
+      .replace(/(\*|_)(.*?)\1/g, '$2')
+      .replace(/~~(.*?)~~/g, '$1')
+      .replace(/!\[.*?\]\(.*?\)/g, '')
+      .replace(/\[([^\]]+)\]\(.*?\)/g, '$1')
+      .replace(/`(.*?)`/g, '$1')
+      .replace(/#+\s(.*)/g, '$1')
+      .replace(/>\s(.*)/g, '$1')
+      .replace(/[*+-]\s/g, '')
+      .replace(/\d+\.\s/g, '')
+      .replace(/\n+/g, ' ')
+      .trim();
+
+    if (description.length === 0) {
+      description = 'A bad wizard erased this page...';
+    }
+
+    return { title, description };
+  };
+
   // Handle loading state
   if (isLoading) {
     return (
       <div>
-        <div className="flex justify-between items-center px-4 py-5 sm:px-6 mb-5 mt-5 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
-          <SkeletonLoader width="w-full" height="h-10" />
-        </div>
         <div className="flex h-screen">
-          <div className="w-1/3 px-4 py-5 sm:px-6 shadow rounded-lg bg-gray-100 dark:bg-gray-900">
+          <div className="w-1/3 p-4 shadow  bg-gray-100 dark:bg-gray-900">
+            <SkeletonLoader width="w-full" height="h-16 mb-4" />
+            <SkeletonLoader width="w-full" height="h-16 mb-4" />
+            <SkeletonLoader width="w-full" height="h-16 mb-4" />
             <SkeletonLoader width="w-full" height="h-16 mb-4" />
             <SkeletonLoader width="w-full" height="h-16 mb-4" />
             <SkeletonLoader width="w-full" height="h-16 mb-4" />
           </div>
-          <div className="w-2/3 pl-4">
-            <div className="h-full max-h-full p-8 border border-gray-300 rounded-lg dark:border-gray-600 dark:bg-gray-800 relative">
+          <div className="w-2/3">
+            <div className="h-full max-h-full p-4  bg-gray-100 dark:bg-gray-900 relative">
               <SkeletonLoader width="w-full" height="h-full" />
             </div>
           </div>
@@ -248,26 +282,29 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
 
   // Render notes
   return (
-    <>
-      <div className="mt-5">
-        <div className="flex flex-col md:flex-row" style={{ height: 'calc(100vh - 2rem)' }}>
-          {isMobile ? (
-            <NotesCarousel
-              notes={notes}
-              selectedNote={selectedNote}
-              handleNoteSelect={handleNoteSelect}
-              addNewNoteToDatabase={(campaignID) => addNewNoteToDatabase(campaignID, setNotes, setSelectedNote, setNoteContent)}
-              campaignID={campaignID}
-            />
-          ) : (
-            <NotesList
-              notes={notes}
-              selectedNote={selectedNote}
-              handleNoteSelect={handleNoteSelect}
-              addNewNoteToDatabase={(campaignID) => addNewNoteToDatabase(campaignID, setNotes, setSelectedNote, setNoteContent)}
-              campaignID={campaignID}
-            />
-          )}
+    <div className="h-screen">
+      <Split
+        className="flex h-full"
+        direction="horizontal"
+        sizes={paneSizes} // Use state for pane sizes
+        minSize={[200, 300]}
+        maxSize={[500, Infinity]}
+        gutterSize={1}
+        gutterAlign="center"
+        cursor="col-resize"
+        gutterStyle={() => ({cursor: 'col-resize', width: '4px' })}
+        onDragEnd={(sizes) => setPaneSizes(sizes)} // Save the sizes on drag end
+        >
+        <div className="h-full"> {/* Ensure the content is scrollable within the pane */}
+          <NotesList
+            notes={notes}
+            selectedNote={selectedNote}
+            handleNoteSelect={handleNoteSelect}
+            addNewNoteToDatabase={(campaignID) => addNewNoteToDatabase(campaignID, setNotes, setSelectedNote, setNoteContent)}
+            campaignID={campaignID}
+          />
+        </div>
+        <div className="h-full"> {/* Ensure the content is scrollable within the pane */}
           <NoteEditor
             noteContent={noteContent}
             isPreview={isPreview}
@@ -279,7 +316,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
             showAlert={openAlert}
           />
         </div>
-      </div>
-    </>
+      </Split>
+    </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import { PostToDB } from '@/lib/DBUtils/PostCalls';
 import { DeleteFromDB } from "@/lib/DBUtils/RemoveCalls";
+import Character from '@/pages/character';
 
 // Function to update an existing note in the database
 export const updateNoteInDatabase = async (noteId, content) => {
@@ -48,7 +49,7 @@ export const updateNoteInDatabase = async (noteId, content) => {
 export const addNewNoteToDatabase = async (campaignID, setNotes, setSelectedNote, setNoteContent) => {
   const newNoteData = {
     objectID: campaignID,
-    content: "# A new page in the Grimoire", // Default content for a new note
+    content: " ",
     session: 1, // Adjust as needed
   };
 
@@ -108,7 +109,8 @@ export const fetchNotes = async (campaignID, setNotes, setNotesIsLoading, setNot
         content: note.Content,
         session: note.Session
       }));
-
+      console.log("Notes Fetched")
+      console.log(mappedNotes);
       setNotes(mappedNotes);
     } catch (error) {
       setNotesError(error.message);

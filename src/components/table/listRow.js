@@ -57,7 +57,7 @@ function ListRow({ characterData, updateCharacter, showAlert, isNoteView = false
                             <div className="text-gray-500 dark:text-gray-300">{characterData.Class} - {characterData.Race}</div>
                         </div>
                     )}
-        <div className={` ${isNoteView ? 'flex flex-row' : 'p-4 bg-white dark:bg-gray-700 shadow'}`}>
+        <div className={` ${isNoteView ? 'flex flex-row' : 'p-4 bg-white dark:bg-gray-700 shadow rounded-xl'}`}>
         <UpdateCharacter 
             row={characterData} 
             onClose={toggleEdit} 
@@ -68,28 +68,22 @@ function ListRow({ characterData, updateCharacter, showAlert, isNoteView = false
         </div>
         </div>
     ) : (
-        <div className={` ${isNoteView ? 'bg-gray-100 dark:bg-gray-800 p-8 pt-0' : ''}`}>
-            {isNoteView && (
-                        <div className={`${isNoteView ? 'text-center mb-4' : ''}`}>
-                            <div className="font-medium text-gray-900 dark:text-gray-100">{characterData.Name}</div>
-                            <div className="text-gray-500 dark:text-gray-300">{characterData.Class} - {characterData.Race}</div>
-                        </div>
-                    )}
-        <div className={` ${isNoteView ? 'flex flex-row' : 'p-4 bg-white dark:bg-gray-700 shadow'}`}>
-            <div className={`flex ${isNoteView ? 'flex-col md:w-1/3 gap-4' : 'items-center justify-between'}`}>
-                <div className={`${isNoteView ? 'grid grid-cols-1 gap-2 mt-2' : 'grid grid-cols-2 gap-2 mt-2'}`}>
+        <div className={` ${isNoteView ? 'pb-2 lg:w-3/4 mx-auto' : ''}`}>
+        <div className={` ${isNoteView ? 'flex flex-row space-x-8' : 'p-4 bg-white dark:bg-gray-700 rounded-xl border border-gray-400 dark:border-gray-700'}`}>
+            <div className={`flex ${isNoteView ? 'flex-col w-1/3 gap-4' : 'items-center justify-between'}`}>
+                <div className={`${isNoteView ? 'grid grid-cols-1 gap-2 my-auto' : 'grid grid-cols-1 gap-2 mt-2'}`}>
                     <img
                         className={`${
                             isNoteView
-                                ? 'w-64 h-48 rounded-xl object-cover'
-                                : 'h-24 w-24 rounded-full object-cover'
+                                ? 'w-48 h-64 rounded-xl object-cover'
+                                : 'h-24 w-24 rounded-2xl object-cover'
                         }`}
                         src={characterData.Image}
                         alt={characterData.Name}
                     />
                     {!isNoteView && (
                         <div className={`${isNoteView ? 'text-center' : ''}`}>
-                            <div className="font-medium text-gray-900 dark:text-gray-100">{characterData.Name}</div>
+                            <div className="font-bold text-2xl text-gray-900 dark:text-gray-100">{characterData.Name}</div>
                             <div className="text-gray-500 dark:text-gray-300">{characterData.Class} - {characterData.Race}</div>
                         </div>
                     )}
@@ -142,6 +136,24 @@ function ListRow({ characterData, updateCharacter, showAlert, isNoteView = false
                             Level {characterData.Level}
                         </span>
                     </div>
+
+                    {isNoteView && (
+                    <>
+                    <div className="flex flex-col">
+                        <span className="font-medium text-gray-900 dark:text-gray-100">Class</span>
+                        <span className="bg-orange-50 dark:bg-orange-200 px-2 py-1 rounded text-orange-600 dark:text-orange-900 truncate hover:overflow-visible hover:whitespace-normal">
+                            {characterData.Class}
+                        </span>
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="font-medium text-gray-900 dark:text-gray-100">Race</span>
+                        <span className="bg-orange-50 dark:bg-orange-200 px-2 py-1 rounded text-orange-600 dark:text-orange-900 truncate hover:overflow-visible hover:whitespace-normal">
+                            {characterData.Race}
+                        </span>
+                    </div>
+                    </>
+                    )}
+                    
                 </div>
             )}
             {!isNoteView && (

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import ListRow from '@/components/table/listRow';
 import { useState } from 'react';
 import { PostToDB } from '@/lib/DBUtils/PostCalls';
+import { FaPlus, FaUser, FaFile, FaFilter } from 'react-icons/fa';
 
 export default function Table({ characters, showAlert, campaignID, setCharacters}) {
 
@@ -109,8 +110,8 @@ export default function Table({ characters, showAlert, campaignID, setCharacters
                         className="w-full p-2 mr-4 rounded-md border border-gray-300 dark:border-gray-700"
                     />
                     
-                    <button onClick={addNewCharacter} type="button" className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
-                        Add Character
+                    <button onClick={addNewCharacter} type="button" className="inline-flex items-center px-3 py-3 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
+                        <FaPlus/>
                     </button>
                 
                 </div>
@@ -122,20 +123,21 @@ export default function Table({ characters, showAlert, campaignID, setCharacters
     }
 
     return (
-        <div className="border rounded-xl  dark:border-0 dark:bg-gray-800 shadow mt-5 p-4">
+        <div className=" dark:bg-gray-800 p-4">
             <div className="flex justify-between mb-4">
                 <input
                     type="text"
-                    placeholder="Search..."
+                    placeholder="Search characters..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full p-2 mr-4 rounded-md border border-gray-300 dark:border-gray-700"
+                    className="w-full p-2 mr-4 text-gray-800 bg-white dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-300 rounded"
+                    
                 />
-                <button onClick={addNewCharacter} type="button" className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
-                        Add Character
+                <button onClick={addNewCharacter} type="button" className="inline-flex items-center px-5 py-1 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
+                <FaPlus/>
                 </button>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredData.map((rowData) => (
                     <ListRow key={rowData.ID} characterData={rowData} updateCharacter={updateCharacter} showAlert={showAlert}/>
                 ))}
