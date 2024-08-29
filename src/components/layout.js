@@ -13,7 +13,7 @@ export default function Layout({ children, hideFooter, hideNav }) {
       <Helmet>
         <meta charSet="utf-8" />
         <title>Data and Dragons</title>
-        <body className="bg-white-0 dark:bg-gray-700"/>
+        <body className="bg-white-0 dark:bg-gray-800"/>
       </Helmet>
 
       <div className="flex flex-col h-screen">
@@ -30,7 +30,7 @@ export default function Layout({ children, hideFooter, hideNav }) {
         <Helmet>
           <meta charSet="utf-8" />
           <title>Data and Dragons</title>
-          <body className="bg-white-0 dark:bg-gray-700"/>
+          <body className="bg-white-0 dark:bg-gray-800"/>
         </Helmet>
   
         <div className="flex flex-col h-screen">
@@ -47,7 +47,7 @@ export default function Layout({ children, hideFooter, hideNav }) {
         <Helmet>
           <meta charSet="utf-8" />
           <title>Data and Dragons</title>
-          <body className="bg-white-0 dark:bg-gray-700"/>
+          <body className="bg-white-0 dark:bg-gray-800"/>
         </Helmet>
   
         <div className="flex flex-col h-screen">
@@ -65,7 +65,7 @@ export default function Layout({ children, hideFooter, hideNav }) {
       <Helmet>
         <meta charSet="utf-8" />
         <title>Data and Dragons</title>
-        <body className="bg-white-0 dark:bg-gray-700"/>
+        <body className="bg-white-0 dark:bg-gray-800"/>
       </Helmet>
 
       <div className="flex flex-col h-screen">
