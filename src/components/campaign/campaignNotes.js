@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import Split from 'react-split';
 import NotesList from '@components/notes/notesList';
-import NotesCarousel from '@components/notes/notesCarousel';
 import NoteEditor from '@components/notes/noteEditor';
 import SkeletonLoader from '@components/elements/skeletonLoader';
 import { updateNoteInDatabase, addNewNoteToDatabase, deleteNote } from '@/lib/DBUtils/noteDBUtils';
@@ -20,7 +19,7 @@ function debounce(func, delay) {
   };
 }
 
-export default function CampaignNotes({ campaignID, notes, characters = { data: [] }, isLoading, loadingError, setNotes, setCharacters, openAlert, setTags, selectedTag }) {
+export default function CampaignNotes({ campaignID, notes, characters, isLoading, loadingError, setNotes, setCharacters, openAlert, setTags, selectedTag }) {
   // Handle State
   const [selectedNote, setSelectedNote] = useState(null);
   const [noteContent, setNoteContent] = useState('');
@@ -30,6 +29,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
 
   useEffect(() => {
     if(!isLoading){
+      console.log(characters);
       // Map characters to note-like objects
       const characterNotes = characters.data.map(character => ({
         id: character.ID, // Using character ID
@@ -60,6 +60,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
       });
 
       setNotes(uniqueNotes);
+      findAndSetTags(uniqueNotes);
   }
   }, [characters, isLoading]);
 
@@ -68,7 +69,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
     if(!isLoading){
       findAndSetTags(notes);
     }
-  }, [noteContent, notes]);
+  }, [noteContent]);
     
   
   const findAndSetTags = (notes) => {
@@ -98,8 +99,8 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
         };
       });
   
-      setTags(tagData); // Assuming setTags is a useState setter function
-      setNotes(updatedNotes); // Assuming setNotes is used to update the state of notes
+      setTags(tagData); 
+      setNotes(updatedNotes);
     }
   };
 
@@ -152,7 +153,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
         // Update regular note
         updateNoteInDatabase(noteToUpdate.id, content, campaignID);
       }
-    }, 1000),
+    }, 2000),
     [notes]
   );
 

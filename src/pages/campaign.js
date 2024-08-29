@@ -72,7 +72,6 @@ export default function Campaign(props) {
             <div className="flex h-full">
                 <div 
                     className={`fixed h-full border-r inset-y-0 left-0 z-30 w-48 transform dark:border-gray-600 bg-slate-800 dark:bg-gray-700 transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                    
                     <CampaignHeader campaign={props.campaign} activeTab={activeTab} setActiveTab={handleTabChange} setSelectedTag={setSelectedTag} selectedTag={selectedTag} />
                     <Tags tags={tags} setSelectedTag={setSelectedTag} selectedTag={selectedTag} setActiveTab={setActiveTab} />
 
