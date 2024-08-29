@@ -31,6 +31,11 @@ const NotesList = ({ notes, selectedNote, selectedTag, handleNoteSelect, addNewN
     buildLunrIndex();
   }, [notes]);
 
+
+  useEffect(() => {
+    handleNoteSelect(null);
+  }, [filter, selectedTag]);
+
   const toggleFilter = () => {
     if (filter === 'all') {
       setFilter('character');
@@ -40,10 +45,6 @@ const NotesList = ({ notes, selectedNote, selectedTag, handleNoteSelect, addNewN
       setFilter('all');
     }
   };
-
-  useEffect(() => {
-    handleNoteSelect(null);
-  }, [filter, selectedTag]);
 
   const handleSearchChange = (e) => {
     const query = e.target.value;
