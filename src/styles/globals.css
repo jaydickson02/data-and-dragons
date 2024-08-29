@@ -36,6 +36,10 @@
   height: 175px
 }
 
+.gutter {
+  cursor: col-resize;
+}
+
 
 @keyframes pop-out {
   0% {

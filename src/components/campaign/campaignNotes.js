@@ -155,12 +155,12 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
   );
 
   // Set the selected note and note content when notes are loaded
-  useEffect(() => {
-    if (notes.length > 0) {
-      setSelectedNote(notes[0]);
-      setNoteContent(notes[0].content);
-    }
-  }, [isLoading]);
+  // useEffect(() => {
+  //   if (notes.length > 0) {
+  //     setSelectedNote(notes[0]);
+  //     setNoteContent(notes[0].content);
+  //   }
+  // }, [isLoading]);
 
   // Add a new note if there are no notes
   useEffect(() => {
@@ -179,7 +179,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
   // Detect screen size for responsive rendering
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // md breakpoint for mobile
+      setIsMobile(window.innerWidth < 481);
     };
 
     handleResize(); // Set initial state
@@ -262,34 +262,6 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
     setIsPreview(!isPreview);
   };
 
-   // Function to extract title and description
-   const extractTitleAndDescription = (content) => {
-    const firstLine = content.split('\n')[0];
-    const originalLength = firstLine.length;
-    const title = firstLine.replace(/^#\s*/, '');
-    let description = content.slice(originalLength + 1).trim();
-
-    // Strip markdown from description
-    description = description
-      .replace(/(\*\*|__)(.*?)\1/g, '$2')
-      .replace(/(\*|_)(.*?)\1/g, '$2')
-      .replace(/~~(.*?)~~/g, '$1')
-      .replace(/!\[.*?\]\(.*?\)/g, '')
-      .replace(/\[([^\]]+)\]\(.*?\)/g, '$1')
-      .replace(/`(.*?)`/g, '$1')
-      .replace(/#+\s(.*)/g, '$1')
-      .replace(/>\s(.*)/g, '$1')
-      .replace(/[*+-]\s/g, '')
-      .replace(/\d+\.\s/g, '')
-      .replace(/\n+/g, ' ')
-      .trim();
-
-    if (description.length === 0) {
-      description = 'A bad wizard erased this page...';
-    }
-
-    return { title, description };
-  };
 
   // Handle loading state
   if (isLoading) {
@@ -328,22 +300,12 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
     );
   }
 
+  if(isMobile){
   // Render notes
   return (
     <div className="h-screen">
-      <Split
-        className="flex h-full"
-        direction="horizontal"
-        sizes={paneSizes} // Use state for pane sizes
-        minSize={[200, 300]}
-        maxSize={[500, Infinity]}
-        gutterSize={1}
-        gutterAlign="center"
-        cursor="col-resize"
-        gutterStyle={() => ({cursor: 'col-resize', width: '4px' })}
-        onDragEnd={(sizes) => setPaneSizes(sizes)} // Save the sizes on drag end
-        >
-        <div className="h-full"> {/* Ensure the content is scrollable within the pane */}
+        {selectedNote ? null : (
+        <div className="h-full min-w-[200px]">
           <NotesList
             notes={notes}
             selectedNote={selectedNote}
@@ -353,7 +315,9 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
             selectedTag={selectedTag}
           />
         </div>
-        <div className="h-full"> {/* Ensure the content is scrollable within the pane */}
+        )}
+        {!selectedNote ? null : (
+        <div className="h-full">
           <NoteEditor
             noteContent={noteContent}
             isPreview={isPreview}
@@ -361,11 +325,55 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
             togglePreview={togglePreview}
             handleDeleteNote={handleDeleteNote}
             selectedNote={selectedNote}
+            setSelectedNote={setSelectedNote}
             updateCharacterNote={updateCharacterNote}
             showAlert={openAlert}
+            isMobile={isMobile}
+          />
+        </div>
+        )}
+    </div>
+  );} else {
+
+  // Render notes
+  return (
+    <div className="h-screen">
+      <Split
+        className="flex h-full"
+        direction="horizontal"
+        sizes={paneSizes} // Use state for pane sizes
+        minSize={[200, 400]}
+        gutterSize={2}
+        gutterAlign="center"
+        gutterStyle={() => ({width: '8px' })}
+        onDragEnd={(sizes) => setPaneSizes(sizes)} // Save the sizes on drag end
+        >
+        <div className="h-full min-w-[200px]">
+          <NotesList
+            notes={notes}
+            selectedNote={selectedNote}
+            handleNoteSelect={handleNoteSelect}
+            addNewNoteToDatabase={(campaignID) => addNewNoteToDatabase(campaignID, setNotes, setSelectedNote, setNoteContent)}
+            campaignID={campaignID}
+            selectedTag={selectedTag}
+          />
+        </div>
+        <div className="h-full">
+          <NoteEditor
+            noteContent={noteContent}
+            isPreview={isPreview}
+            handleContentChange={handleContentChange}
+            togglePreview={togglePreview}
+            handleDeleteNote={handleDeleteNote}
+            selectedNote={selectedNote}
+            setSelectedNote={setSelectedNote}
+            updateCharacterNote={updateCharacterNote}
+            showAlert={openAlert}
+            isMobile={isMobile}
           />
         </div>
       </Split>
     </div>
   );
+}
 }

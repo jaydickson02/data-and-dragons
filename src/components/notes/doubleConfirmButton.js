@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa';
 
 const DoubleConfirmButton = ({ onConfirm, noteContent, selectedNote }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -40,9 +40,9 @@ const DoubleConfirmButton = ({ onConfirm, noteContent, selectedNote }) => {
   return (
     <div
       className={`relative flex items-center justify-center ${
-        deleteConfirmation ? 'w-32' : 'w-8'
+        deleteConfirmation ? 'w-24' : 'w-8'
       } h-8 rounded-lg transition-all duration-300 ease-in-out ${
-        showConfirmText ? 'pulse-red bg-red-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+        showConfirmText ? 'pulse-red bg-red-600 text-white' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
       }`}
       onTransitionEnd={handleTransitionEnd}
     >
@@ -51,7 +51,7 @@ const DoubleConfirmButton = ({ onConfirm, noteContent, selectedNote }) => {
         className="flex items-center justify-center w-full h-full text-center"
         title="Delete"
       >
-        {!showConfirmText ? <FaTrashAlt size={12} /> : 'Confirm?'}
+        {!showConfirmText ? <FaTrash size={14} /> : 'Confirm'}
       </button>
     </div>
   );
