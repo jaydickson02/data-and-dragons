@@ -65,8 +65,10 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
 
     
   useEffect(() => {
-    findAndSetTags(notes);
-  }, [noteContent]);
+    if(!isLoading){
+      findAndSetTags(notes);
+    }
+  }, [noteContent, notes]);
     
   
   const findAndSetTags = (notes) => {
@@ -92,7 +94,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
       const tagData = uniqueTags.map(tag => {
         return {
           tag: tag,
-          iconType: 'FaTag' // Set default icon, can be changed later based on some logic
+          iconType: 'HiOutlineTag' // Set default icon, can be changed later based on some logic
         };
       });
   
@@ -345,7 +347,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
         minSize={[200, 400]}
         gutterSize={2}
         gutterAlign="center"
-        gutterStyle={() => ({width: '8px' })}
+        gutterStyle={() => ({width: '8px'})}
         onDragEnd={(sizes) => setPaneSizes(sizes)} // Save the sizes on drag end
         >
         <div className="h-full min-w-[200px]">
@@ -358,7 +360,7 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
             selectedTag={selectedTag}
           />
         </div>
-        <div className="h-full">
+        <div className="h-full border-l dark:border-gray-600">
           <NoteEditor
             noteContent={noteContent}
             isPreview={isPreview}

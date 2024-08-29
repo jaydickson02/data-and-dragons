@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaTrash } from 'react-icons/fa';
+import { HiOutlineTrash } from 'react-icons/hi2';
 
 const DoubleConfirmButton = ({ onConfirm, noteContent, selectedNote }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -51,7 +51,7 @@ const DoubleConfirmButton = ({ onConfirm, noteContent, selectedNote }) => {
         className="flex items-center justify-center w-full h-full text-center"
         title="Delete"
       >
-        {!showConfirmText ? <FaTrash size={14} /> : 'Confirm'}
+        {!showConfirmText ? <HiOutlineTrash/> : 'Confirm'}
       </button>
     </div>
   );

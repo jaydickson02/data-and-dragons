@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TiptapEditor from '@components/notes/tiptapEditor';
 import DoubleConfirmButton from '@components/notes/doubleConfirmButton';
 import TurndownService from 'turndown';
-import { FaAngleLeft, FaDownload, FaHashtag } from 'react-icons/fa';
+import { HiOutlineArrowDownOnSquare, HiOutlineHashtag, HiOutlineChevronLeft } from 'react-icons/hi2';
 
 const NoteEditor = ({
   noteContent,
@@ -74,14 +74,14 @@ const NoteEditor = ({
   return (
     <div className="relative h-full flex flex-col bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">
       {/* Options Bar */}
-      <div className={`flex justify-between items-center px-6 py-2 transition-all duration-300 ${showBorder ? 'border-b dark:border-gray-600' : ''}`}>
+      <div className={`flex justify-between items-center px-6 py-2 transition-all duration-300 border-b  ${showBorder ? 'dark:border-gray-600' : 'border-white dark:border-gray-800'}`}>
         {isMobile &&
           //Reset selectedNote to null
           <button
             onClick={() => setSelectedNote(null)}
-            className="flex w-8 h-8 items-center justify-center rounded-lg text-gray-600 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600 mr-8"
+            className="flex w-8 h-8 items-center justify-center rounded-lg text-gray-600 dark:text-gray-100 mr-8"
             title="Close"
-          > <FaAngleLeft size={16} /> </button>}
+          > <HiOutlineChevronLeft size={16} /> </button>}
 
         <h2 className={`text-xl font-bold dark:text-gray-100 transition-opacity duration-500 ${showBorder ? 'opacity-100' : 'opacity-0'}`}>
           {title}
@@ -89,17 +89,17 @@ const NoteEditor = ({
         <div className="ml-auto flex space-x-0">
           <button
             onClick={handleMakeCharacterSheet}
-            className="flex w-8 h-8 items-center justify-center rounded-lg text-gray-600 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600"
+            className="flex w-8 h-8 items-center justify-center rounded-lg text-gray-600 dark:text-gray-100 sm:hover:bg-gray-300 sm:dark:hover:bg-gray-600"
             title="Make Character Sheet"
           >
-            <FaHashtag size={14}/>
+            <HiOutlineHashtag size={14}/>
           </button>
           <button
             onClick={exportToMarkdown}
-            className="flex w-8 h-8 items-center justify-center rounded-lg text-gray-600 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600"
+            className="flex w-8 h-8 items-center justify-center rounded-lg text-gray-600 dark:text-gray-100 sm:hover:bg-gray-300 sm:dark:hover:bg-gray-600"
             title="Export as Markdown"
           >
-            <FaDownload size={14}/>
+            <HiOutlineArrowDownOnSquare/>
           </button>
           <DoubleConfirmButton onConfirm={handleDeleteNote} noteContent={noteContent} selectedNote={selectedNote} />
         </div>
