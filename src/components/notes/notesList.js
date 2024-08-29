@@ -133,8 +133,7 @@ const NotesList = ({ notes, selectedNote, selectedTag, handleNoteSelect, addNewN
     .sort((a, b) => b.score - a.score);
 
     return (
-      //if isMobile and SelectedNote hide this component
-      <div className="flex flex-col border-r dark:border-gray-600 dark:bg-gray-800 h-full">
+      <div className="flex flex-col dark:bg-gray-800 h-full">
         <div className="flex justify-between items-center px-3 mb-4 mt-4 space-x-3">
           <h2 className="text-xl font-bold dark:text-gray-100">Notes</h2>
           <div className="flex space-x-1 text-xs">
