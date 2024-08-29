@@ -42,7 +42,7 @@ const DoubleConfirmButton = ({ onConfirm, noteContent, selectedNote }) => {
       className={`relative flex items-center justify-center ${
         deleteConfirmation ? 'w-24' : 'w-8'
       } h-8 rounded-lg transition-all duration-300 ease-in-out ${
-        showConfirmText ? 'pulse-red bg-red-600 text-white' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+        showConfirmText ? 'pulse-red bg-red-600 text-white' : 'text-gray-600 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600'
       }`}
       onTransitionEnd={handleTransitionEnd}
     >

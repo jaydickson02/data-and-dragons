@@ -79,7 +79,7 @@ const NoteEditor = ({
           //Reset selectedNote to null
           <button
             onClick={() => setSelectedNote(null)}
-            className="flex w-8 h-8 items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 mr-8"
+            className="flex w-8 h-8 items-center justify-center rounded-lg text-gray-600 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600 mr-8"
             title="Close"
           > <FaAngleLeft size={16} /> </button>}
 
@@ -89,14 +89,14 @@ const NoteEditor = ({
         <div className="ml-auto flex space-x-0">
           <button
             onClick={handleMakeCharacterSheet}
-            className="flex w-8 h-8 items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+            className="flex w-8 h-8 items-center justify-center rounded-lg text-gray-600 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600"
             title="Make Character Sheet"
           >
             <FaHashtag size={14}/>
           </button>
           <button
             onClick={exportToMarkdown}
-            className="flex w-8 h-8 items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+            className="flex w-8 h-8 items-center justify-center rounded-lg text-gray-600 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600"
             title="Export as Markdown"
           >
             <FaDownload size={14}/>
