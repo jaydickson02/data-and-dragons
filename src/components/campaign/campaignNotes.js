@@ -156,14 +156,6 @@ export default function CampaignNotes({ campaignID, notes, characters = { data: 
     [notes]
   );
 
-  // Set the selected note and note content when notes are loaded
-  // useEffect(() => {
-  //   if (notes.length > 0) {
-  //     setSelectedNote(notes[0]);
-  //     setNoteContent(notes[0].content);
-  //   }
-  // }, [isLoading]);
-
   // Add a new note if there are no notes
   useEffect(() => {
     if (!isLoading && notes.length === 0) {
