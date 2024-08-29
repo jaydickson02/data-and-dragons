@@ -66,6 +66,7 @@ const TiptapEditor = ({ noteContent, handleContentChange, selectedNote, updateTi
         class: 'prose prose-sm dark:prose-invert focus:outline-none pb-96 m-auto',
       },
     },
+    immediatelyRender: false,
   });
 
   useEffect(() => {
