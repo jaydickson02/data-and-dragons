@@ -98,7 +98,7 @@ const EditToolbar = ({ editor }) => {
           <div className="relative flex items-center">
             <button
               onClick={() => toggleDropdown('heading')}
-              className={`text-gray-600 dark:text-gray-300 p-1 rounded-lg text-xs`}
+              className={`text-gray-600 dark:text-gray-100 p-1 rounded-lg text-xs`}
               title="Headings"
             >
               <FaHeading />
@@ -112,7 +112,7 @@ const EditToolbar = ({ editor }) => {
                       editor.chain().focus().toggleHeading({ level }).run();
                       setActiveDropdown(null);
                     }}
-                    className={`block p-1.5 text-gray-600 dark:text-gray-300 text-sm ${
+                    className={`block p-1.5 text-gray-600 dark:text-gray-100 text-sm ${
                       editor.isActive('heading', { level })
                         ? 'bg-gray-300 dark:bg-gray-600 rounded-lg'
                         : ''
@@ -129,7 +129,7 @@ const EditToolbar = ({ editor }) => {
           <div className="flex space-x-1">
             <button
               onClick={() => editor.chain().focus().toggleBold().run()}
-              className={`text-gray-600 dark:text-gray-300 p-1 rounded-md text-xs ${
+              className={`text-gray-600 dark:text-gray-100 p-1 rounded-md text-xs ${
                 editor.isActive('bold') ? 'bg-gray-300 dark:bg-gray-600' : ''
               }`}
               title="Bold"
@@ -138,7 +138,7 @@ const EditToolbar = ({ editor }) => {
             </button>
             <button
               onClick={() => editor.chain().focus().toggleItalic().run()}
-              className={`text-gray-600 dark:text-gray-300 p-1 rounded-md text-xs ${
+              className={`text-gray-600 dark:text-gray-100 p-1 rounded-md text-xs ${
                 editor.isActive('italic') ? 'bg-gray-300 dark:bg-gray-600' : ''
               }`}
               title="Italic"
@@ -147,7 +147,7 @@ const EditToolbar = ({ editor }) => {
             </button>
             <button
               onClick={() => editor.chain().focus().toggleStrike().run()}
-              className={`text-gray-600 dark:text-gray-300 p-1 rounded-md text-xs ${
+              className={`text-gray-600 dark:text-gray-100 p-1 rounded-md text-xs ${
                 editor.isActive('strike') ? 'bg-gray-300 dark:bg-gray-600' : ''
               }`}
               title="Strikethrough"
@@ -156,7 +156,7 @@ const EditToolbar = ({ editor }) => {
             </button>
             <button
               onClick={() => editor.chain().focus().toggleUnderline().run()}
-              className={`text-gray-600 dark:text-gray-300 p-1 rounded-md text-sm ${
+              className={`text-gray-600 dark:text-gray-100 p-1 rounded-md text-sm ${
                 editor.isActive('underline') ? 'bg-gray-300 dark:bg-gray-600' : ''
               }`}
               title="Underline"
@@ -174,7 +174,7 @@ const EditToolbar = ({ editor }) => {
                   editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
                 }
               }}
-              className={`text-gray-600 dark:text-gray-300 p-1 rounded-lg text-xs ${
+              className={`text-gray-600 dark:text-gray-100 p-1 rounded-lg text-xs ${
                 editor.isActive('link') ? 'bg-gray-300 dark:bg-gray-600' : ''
               }`}
               title="Insert Link"
@@ -183,7 +183,7 @@ const EditToolbar = ({ editor }) => {
             </button>
             <button
               onClick={() => editor.chain().focus().toggleHighlight().run()}
-              className={`text-gray-600 dark:text-gray-300 rounded-lg text-xs px-1 py-1 ${
+              className={`text-gray-600 dark:text-gray-100 rounded-lg text-xs px-1 py-1 ${
                 editor.isActive('highlight') ? 'bg-gray-300 dark:bg-gray-600' : ''
               }`}
               title="Highlight"
@@ -197,7 +197,7 @@ const EditToolbar = ({ editor }) => {
             <div className="relative flex items-center">
               <button
                 onClick={() => toggleDropdown('fontFamily')}
-                className="text-gray-600 dark:text-gray-300 p-1 rounded-lg text-xs"
+                className="text-gray-600 dark:text-gray-100 p-1 rounded-lg text-xs"
                 title="Font Family"
               >
                 <FaFont />
@@ -208,7 +208,7 @@ const EditToolbar = ({ editor }) => {
                     <button
                       key={family}
                       onClick={() => applyFontFamily(family)}
-                      className={`block w-32 px-1 py-1 text-center text-gray-600 dark:text-gray-300 text-sm ${
+                      className={`block w-32 px-1 py-1 text-center text-gray-600 dark:text-gray-100 text-sm ${
                         getCurrentFontFamily() === family ? 'bg-gray-300 dark:bg-gray-600 rounded-lg' : ''
                       } hover:bg-gray-200 dark:hover:bg-gray-700`}
                     >
@@ -220,7 +220,7 @@ const EditToolbar = ({ editor }) => {
             </div>
             <button
               onClick={toggleTextAlign}
-              className="text-gray-600 dark:text-gray-300 px-1 py-1 rounded-lg text-xs"
+              className="text-gray-600 dark:text-gray-100 px-1 py-1 rounded-lg text-xs"
               title="Text Alignment"
             >
               {alignmentIcon}
@@ -230,7 +230,7 @@ const EditToolbar = ({ editor }) => {
           {/* Collapse Button */}
           <button
             onClick={toggleToolbar}
-            className="text-gray-600 dark:text-gray-300 p-1 rounded-lg text-xs"
+            className="text-gray-600 dark:text-gray-100 p-1 rounded-lg text-xs"
             title="Collapse Toolbar"
           >
             <FaChevronRight />
@@ -241,7 +241,7 @@ const EditToolbar = ({ editor }) => {
         <div className="absolute bottom-8 right-8 p-1 bg-gray-100 dark:bg-gray-700 shadow-lg rounded-md flex items-center transition-all duration-300 ease-in-out">
           <button
             onClick={toggleToolbar}
-            className="text-gray-600 dark:text-gray-300 p-2 rounded-md text-xs"
+            className="text-gray-600 dark:text-gray-100 p-2 rounded-md text-xs"
             title="Expand Toolbar"
           >
             <span className='flex flex-row'>
