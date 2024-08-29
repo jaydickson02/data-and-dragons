@@ -67,21 +67,14 @@ export default function Campaign(props) {
         setSidebarOpen(!sidebarOpen);
     };
 
-    useEffect(() => {
-        if(selectedTag) {
-            console.log(selectedTag);
-        }
-    }, [selectedTag]);
-
     return (
         <Layout hideFooter={true} hideNav={true}>
             <div className="flex h-full">
-                {/* Sidebar */}
                 <div 
-                    className={`fixed h-full border-r inset-y-0 left-0 z-30 w-56 transform dark:border-gray-600 bg-slate-800 dark:bg-gray-700 transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+                    className={`fixed h-full border-r inset-y-0 left-0 z-30 w-48 transform dark:border-gray-600 bg-slate-800 dark:bg-gray-700 transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                     
-                    <CampaignHeader campaign={props.campaign} activeTab={activeTab} setActiveTab={handleTabChange} setSelectedTag={setSelectedTag} />
-                    <Tags tags={tags} setSelectedTag={setSelectedTag} setActiveTab={setActiveTab} />
+                    <CampaignHeader campaign={props.campaign} activeTab={activeTab} setActiveTab={handleTabChange} setSelectedTag={setSelectedTag} selectedTag={selectedTag} />
+                    <Tags tags={tags} setSelectedTag={setSelectedTag} selectedTag={selectedTag} setActiveTab={setActiveTab} />
 
                     <button
                         onClick={toggleSidebar}
@@ -92,7 +85,7 @@ export default function Campaign(props) {
                 </div>
 
                 {/* Main content area */}
-                <div className={`flex-grow h-full dark:bg-gray-800 transition-all duration-300 ease-in-out ${sidebarOpen ? 'ml-56' : 'ml-0'}`}>
+                <div className={`flex-grow h-full dark:bg-gray-800 transition-all duration-300 ease-in-out ${sidebarOpen ? 'ml-48' : 'ml-0'}`}>
                     <button
                         onClick={toggleSidebar}
                         className={`fixed bottom-4 left-4 ${sidebarOpen ? 'hidden' : ''} transform transition-transform duration-300 ease-in-out text-gray-600 dark:text-gray-300 p-2 bg-gray-200 dark:bg-gray-700 rounded-full focus:outline-none`}
